@@ -1,0 +1,175 @@
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.r-a1ub67 {
+  display: none !important;
+}
+
+* {
+  font-family: 'Mukta', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  scroll-behavior: smooth;
+  overflow-y: visible;
+}
+
+#editor::-webkit-scrollbar {
+  display: none;
+}
+
+a {
+  color: dodgerblue;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button {
+  padding: 0.2rem 0.5rem;
+  /* border: 1px solid lightgrey; */
+  font-size: small;
+}
+
+/* [contenteditable] {
+  padding: 0.5rem 0;
+} */
+
+[contenteditable]:focus {
+  outline: none;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.ProseMirror img {
+  width: 30%;
+  height: auto;
+  margin-top: 0.5rem;
+}
+
+#editor {
+  overflow-y: auto;
+}
+
+/* .ProseMirror .ProseMirror-selectednode {
+  outline: 3px solid #68cef8;
+} */
+
+.mention {
+  /* border: 1px solid #000; */
+  /* border-radius: 0.4rem; */
+  box-decoration-break: clone;
+  padding: 0.1rem 0.3rem;
+  color: dodgerblue;
+}
+
+.items {
+  background: #fff;
+  border-radius: 0.2rem;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0px 10px 20px rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 1rem;
+  overflow: hidden;
+  padding: 0.2rem;
+  position: relative;
+}
+
+.item {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 0.2rem;
+  display: block;
+  margin: 0;
+  font-size: 14px;
+  padding: 0.2rem 0.4rem;
+  text-align: left;
+  width: 100%;
+}
+
+.item.is-selected {
+  border: none;
+  background-color: #fbfbfb;
+}
+
+.react-component-with-content {
+  background: #faf594;
+  border: 3px solid #0d0d0d;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+  position: relative;
+}
+
+.react-component-with-content .label {
+  margin-left: 1rem;
+  background-color: #0d0d0d;
+  font-size: 0.6rem;
+  letter-spacing: 1px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #fff;
+  position: absolute;
+  top: 0;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0 0 0.5rem 0.5rem;
+}
+
+.react-component-with-content .content {
+  margin: 2.5rem 1rem 1rem;
+  padding: 0.5rem;
+  border: 2px dashed #0d0d0d20;
+}
+
+.draggable-item {
+  display: flex;
+  background: white;
+}
+
+.draggable-item .drag-handle {
+  position: relative;
+  width: 1rem;
+  height: 1rem;
+  top: 0.8rem;
+  margin-right: 0.5rem;
+  cursor: grab;
+  background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 16"><path fill-opacity="0.2" d="M4 14c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zM2 6C.9 6 0 6.9 0 8s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6C.9 0 0 .9 0 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" /></svg>');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.content.blank div::before {
+  content: 'Empty Tweet...';
+  color: rgb(184, 184, 184);
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+
+label input[type='file'] {
+  height: 0;
+  width: 0;
+  opacity: 0;
+}
+label {
+  display: block;
+  width: 30px;
+  height: 30px;
+  margin: 10px auto;
+  line-height: 30px;
+  font-weight: bold;
+  font-size: 24px;
+  cursor: pointer;
+}
