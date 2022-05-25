@@ -58,7 +58,7 @@ const GifModal = ({ setGif }) => {
               apiKey='1hqexOwDJU7auRDWAXogTvGYjnqruv0B'
               onSelect={(item) => {
                 console.log(item)
-                setGif(item.images.preview_gif.url)
+                setGif(item.images.original.mp4)
               }}
               masonryConfig={[
                 { columns: 2, imageWidth: 110, gutter: 5 },

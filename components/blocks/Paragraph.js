@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { NodeViewWrapper, NodeViewContent } from '@tiptap/react'
 import GifModal from '../GifModal'
-import { BsFillImageFill, BsPlusCircle } from 'react-icons/bs'
+import { BsFillImageFill, BsPlusCircle, BsX } from 'react-icons/bs'
 import Image from 'next/image'
 import dp from '../../assets/dp.jpeg'
-import { FiImage } from 'react-icons/fi'
 import TwitterLinkView from '../TwitterLinkView'
 
 const Paragraph = (props) => {
@@ -74,7 +73,7 @@ const Paragraph = (props) => {
               <div className='ml-12'>
                 <NodeViewContent
                   onKeyDown={handleKeyDown}
-                  className={`content w-60 md:w-64 lg:w-80 pl-3 mb-0 text-md ${
+                  className={`content w-60 md:w-64 lg:w-96 pl-3 mb-2 text-md ${
                     props.node.content.size > 280
                       ? 'text-red-500'
                       : 'text-gray-600'
@@ -83,18 +82,40 @@ const Paragraph = (props) => {
                 <div>
                   <TwitterLinkView url={text} />
                 </div>
-                <div className='flex gap-1 mb-2'>
+                <div className=''>
                   {image ? (
-                    <img
-                      className='mb-2 ml-2 rounded-lg'
-                      src={image}
-                      alt='dp'
-                    />
+                    <>
+                      <div
+                        onClick={() => setImage('')}
+                        className='absolute top-24 left-52 bg-gray-50 p-0.5 rounded-full w-max cursor-pointer'
+                      >
+                        <BsX color='black' />
+                      </div>
+                      <img
+                        className='my-2 ml-3 rounded-xl'
+                        src={image}
+                        alt='dp'
+                      />
+                    </>
                   ) : (
                     ''
                   )}
                   {gif ? (
-                    <img className='mb-2 ml-2 rounded-lg' src={gif} alt='dp' />
+                    <>
+                      <div
+                        onClick={() => setGif('')}
+                        className='absolute top-24 left-56 bg-gray-50 p-0.5 rounded-full w-max cursor-pointer z-20'
+                      >
+                        <BsX color='black' />
+                      </div>
+                      <video
+                        src={gif}
+                        autoPlay
+                        loop
+                        className='ml-3 w-6/12 my-2 rounded-xl'
+                        alt='meme'
+                      />
+                    </>
                   ) : (
                     ''
                   )}

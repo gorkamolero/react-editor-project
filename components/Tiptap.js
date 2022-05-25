@@ -14,6 +14,7 @@ import Dropcursor from '@tiptap/extension-dropcursor'
 import { BsFillImageFill } from 'react-icons/bs'
 import GifModal from './GifModal'
 import { Extension } from '@tiptap/core'
+import ActionBar from './ActionBar'
 
 // const CustomExtension = Extension.create({
 //   name: 'customExtension',
@@ -137,6 +138,7 @@ const Tiptap = () => {
           <button onClick={clearNode}>Clear</button>
         </div>
       </div> */}
+      <ActionBar />
     </>
   )
 }
