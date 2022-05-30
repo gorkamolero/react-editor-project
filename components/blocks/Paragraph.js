@@ -87,7 +87,7 @@ const Paragraph = (props) => {
                     <>
                       <div
                         onClick={() => setImage('')}
-                        className='absolute top-24 left-52 bg-gray-50 p-0.5 rounded-full w-max cursor-pointer'
+                        className='relative top-10 -mt-6 left-40 bg-gray-50 p-0.5 rounded-full w-max cursor-pointer'
                       >
                         <BsX color='black' />
                       </div>
@@ -104,7 +104,7 @@ const Paragraph = (props) => {
                     <>
                       <div
                         onClick={() => setGif('')}
-                        className='absolute top-24 left-56 bg-gray-50 p-0.5 rounded-full w-max cursor-pointer z-20'
+                        className='relative top-10 left-44 bg-gray-50 p-0.5 rounded-full w-max cursor-pointer z-20 -mt-6'
                       >
                         <BsX color='black' />
                       </div>

@@ -31,7 +31,7 @@ import ActionBar from './ActionBar'
 // })
 
 const Tiptap = () => {
-  const limit = 280
+  // const limit = 280
   const editor = useEditor({
     extensions: [
       Document,
@@ -40,9 +40,6 @@ const Tiptap = () => {
       HardBreak,
       Placeholder.configure({
         placeholder: 'Write something...'
-      }),
-      CharacterCount.configure({
-        limit
       }),
       Mention.configure({
         HTMLAttributes: {
@@ -55,7 +52,7 @@ const Tiptap = () => {
       })
     ],
     content: '',
-    autofocus: 'end',
+    autofocus: 'start'
     // onBeforeCreate: ({ editor }) => {
     //   console.log('onBeforeCreate', editor)
     // },
@@ -65,13 +62,13 @@ const Tiptap = () => {
     // onCreate({ editor }) {
     //   console.log('onCreate', editor)
     // },
-    onUpdate({ editor }) {
-      editor.commands.focus()
-      const value = editor.getText()
-      if (value.endsWith('\n\n')) {
-        console.log('Break', editor)
-      }
-    }
+    // ononUpdate({ editor }) {
+    //   editor.commands.focus('start')
+    //   const value = editor.getText()
+    //   if (value.endsWith('\n\n')) {
+    //     console.log('Break', editor)
+    //   }
+    // }
     // onSelectionUpdate({ editor }) {
     //   console.log('onSelectionUpdate', editor)
     // },
@@ -93,7 +90,7 @@ const Tiptap = () => {
     return null
   }
 
-  const characterCount = editor.storage.characterCount.characters()
+  // const characterCount = editor.storage.characterCount.characters()
 
   const addImage = () => {
     const url = window.prompt('URL')
@@ -113,14 +110,16 @@ const Tiptap = () => {
         editor={editor}
         id='editor'
         style={{
-          height: '80vh',
+          height: '82vh',
           overflowY: 'scroll',
           scrollSnapMarginBottom: 0,
           scrollBehavior: 'smooth',
           scrollPaddingBlockEnd: '50%'
         }}
       />
-
+      <div className='fixed bottom-b w-80 md:w-96'>
+        <ActionBar />
+      </div>
       {/* <div className='flex gap-2 items-center mt-2 text-gray-500'>
         <div>
           {characterCount}/{limit} Characters
@@ -138,7 +137,6 @@ const Tiptap = () => {
           <button onClick={clearNode}>Clear</button>
         </div>
       </div> */}
-      <ActionBar />
     </>
   )
 }

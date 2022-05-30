@@ -11,7 +11,7 @@ import { signInWithPopup, TwitterAuthProvider } from 'firebase/auth'
 import { authentication } from '../auth/firebase'
 import dp from '../assets/dp.jpeg'
 
-const Header = () => {
+const Header = ({ sidebar, setSidebar }) => {
   const handleSubmit = async () => {
     const provider = new TwitterAuthProvider()
     await signInWithPopup(authentication, provider)
@@ -19,11 +19,11 @@ const Header = () => {
       .catch((error) => console.error(error))
   }
   return (
-    <div className='px-4 py-1 bg-gray-50/50 shadow-sm'>
+    <header className='px-4 py-1 bg-gray-50 shadow-sm sticky top-0 z-50'>
       <div className='flex justify-between items-center'>
-        <div>
+        <button onClick={() => setSidebar(!sidebar)}>
           <BsWindowSidebar className='text-gray-400' size={22} />
-        </div>
+        </button>
         <div className='flex space-x-4 items-center font-light text-gray-400'>
           <div className='heading-tab text-gray-700'>
             <BsPen />
@@ -42,7 +42,7 @@ const Header = () => {
             <span className='hidden md:block'>Profile</span>
           </div>
         </div>
-        <button onClick={handleSubmit}>
+        <button onClick={handleSubmit} className='px-0'>
           <Image
             src={dp}
             width={32}
@@ -52,7 +52,7 @@ const Header = () => {
           />
         </button>
       </div>
-    </div>
+    </header>
   )
 }
 

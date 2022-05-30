@@ -151,12 +151,12 @@ button {
   background-position: center;
 }
 
-.content.blank div::before {
+/* .content.blank div::before {
   content: 'Empty Tweet...';
   color: rgb(184, 184, 184);
   font-weight: 300;
   letter-spacing: 1px;
-}
+} */
 
 label input[type='file'] {
   height: 0;

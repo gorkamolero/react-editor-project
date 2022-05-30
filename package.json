@@ -31,6 +31,7 @@
     "react-icons": "^4.3.1",
     "react-modal": "^3.15.1",
     "react-scroll-to-bottom": "^4.2.0",
+    "react-tabs": "^5.1.0",
     "react-twitter-widgets": "^1.10.0",
     "tippy.js": "^6.3.7"
   },
