@@ -61,7 +61,7 @@ export default function Home() {
           >
             <Sidebar />
           </div>
-          <div className='w-full md:w-6/12 lg:w-4/12 mx-auto mt-4 p-2'>
+          <div className='w-full md:w-6/12 lg:w-5/12 mx-auto mt-4 p-2'>
             <ScrollToBottom className={ROOT_CSS}>
               <Tiptap />
             </ScrollToBottom>

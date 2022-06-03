@@ -32,7 +32,7 @@ export default Node.create({
 
   addKeyboardShortcuts() {
     return {
-      'Mod-Enter': () => this.editor.commands.setHardBreak()
+      'Enter': () => this.editor.commands.setHardBreak()
     }
   }
 })

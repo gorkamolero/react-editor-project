@@ -52,7 +52,10 @@ const Tiptap = () => {
       })
     ],
     content: '',
-    autofocus: 'start'
+    autofocus: 'start',
+    // onUpdate({ editor }) {
+    //   editor.chain().focus(1)
+    // },
     // onBeforeCreate: ({ editor }) => {
     //   console.log('onBeforeCreate', editor)
     // },
@@ -62,7 +65,7 @@ const Tiptap = () => {
     // onCreate({ editor }) {
     //   console.log('onCreate', editor)
     // },
-    // ononUpdate({ editor }) {
+    // onUpdate({ editor }) {
     //   editor.commands.focus('start')
     //   const value = editor.getText()
     //   if (value.endsWith('\n\n')) {
@@ -72,9 +75,7 @@ const Tiptap = () => {
     // onSelectionUpdate({ editor }) {
     //   console.log('onSelectionUpdate', editor)
     // },
-    // onTransaction({ editor, transaction }) {
-    //   console.log('onTransaction', editor)
-    // },
+
     // onFocus({ editor, event }) {
     //   console.log('onFocus', editor, event)
     // },
@@ -110,7 +111,7 @@ const Tiptap = () => {
         editor={editor}
         id='editor'
         style={{
-          height: '82vh',
+          height: '80vh',
           overflowY: 'scroll',
           scrollSnapMarginBottom: 0,
           scrollBehavior: 'smooth',

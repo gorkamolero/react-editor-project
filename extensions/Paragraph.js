@@ -1,10 +1,13 @@
 import { Node, mergeAttributes } from '@tiptap/core'
 import { ReactNodeViewRenderer } from '@tiptap/react'
 import Paragraph from '../components/blocks/Paragraph'
+import {
+  getSelectedTweetIndex,
+  tweetEditorPosition
+} from '../components/editorUtils'
 
 export default Node.create({
   name: 'paragraph',
-  priority: 1000,
   draggable: true,
   addOptions: {
     HTMLAttributes: {
@@ -13,7 +16,7 @@ export default Node.create({
   },
   group: 'block',
   content: 'inline*',
-  selectable: true,
+  selectable: false,
 
   parseHTML: () => {
     return [{ tag: 'div[data-type="draggable-item"]' }]
@@ -39,13 +42,24 @@ export default Node.create({
   //   }
   // },
 
+  onUpdate({ editor, state }) {
+    editor.chain().focus(1)
+    // console.log(editor.state.selection.anchor)
+    console.log(editor)
+  },
+
+  onTransaction({ editor }) {
+    console.log(editor.view.state.selection)
+  },
+
   addCommands() {
     return {
       setParagraph:
         () =>
-        ({ commands }) => {
+        ({ commands, editor }) => {
           return commands.first([
-            () => commands.insertContent({ type: this.name })
+            () => commands.insertContent({ type: this.name }),
+            () => commands.focus(1)
           ])
         }
     }
@@ -53,7 +67,13 @@ export default Node.create({
 
   addKeyboardShortcuts() {
     return {
-      Enter: ({ editor }) => editor.commands.splitBlock()
+      'Mod-Enter': ({ editor }) => editor.commands.setParagraph(),
+      'alt-ArrowUp': ({ editor }) => editor.commands.setTextSelection(1),
+      'Mod-a': ({ editor }) =>
+        editor.commands.setTextSelection({
+          from: 0,
+          to: editor.state.selection.anchor
+        })
     }
   }
 })

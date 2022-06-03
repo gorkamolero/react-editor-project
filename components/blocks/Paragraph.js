@@ -36,9 +36,6 @@ const Paragraph = (props) => {
 
   useEffect(scrollToBottom, [])
 
-  const handleKeyDown = () => {
-    console.log(props.editor.getText())
-  }
 
   return (
     <>
@@ -72,7 +69,6 @@ const Paragraph = (props) => {
               </div>
               <div className='ml-12'>
                 <NodeViewContent
-                  onKeyDown={handleKeyDown}
                   className={`content w-60 md:w-64 lg:w-96 pl-3 mb-2 text-md ${
                     props.node.content.size > 280
                       ? 'text-red-500'
@@ -84,35 +80,35 @@ const Paragraph = (props) => {
                 </div>
                 <div className=''>
                   {image ? (
-                    <>
-                      <div
+                    <div>
+                      {/* <div
                         onClick={() => setImage('')}
-                        className='relative top-10 -mt-6 left-40 bg-gray-50 p-0.5 rounded-full w-max cursor-pointer'
+                        className='relative top-10 -mt-6 left-44 bg-gray-50 p-0.5 rounded-full w-max cursor-pointer'
                       >
                         <BsX color='black' />
-                      </div>
+                      </div> */}
                       <img
                         className='my-2 ml-3 rounded-xl'
                         src={image}
                         alt='dp'
                       />
-                    </>
+                    </div>
                   ) : (
                     ''
                   )}
                   {gif ? (
                     <>
-                      <div
+                      {/* <div
                         onClick={() => setGif('')}
-                        className='relative top-10 left-44 bg-gray-50 p-0.5 rounded-full w-max cursor-pointer z-20 -mt-6'
+                        className='relative top-10 left-48 bg-gray-50 p-0.5 rounded-full w-max cursor-pointer -mt-6 z-10'
                       >
                         <BsX color='black' />
-                      </div>
+                      </div> */}
                       <video
                         src={gif}
                         autoPlay
                         loop
-                        className='ml-3 w-6/12 my-2 rounded-xl'
+                        className='ml-3 w-5/12 my-2 rounded-xl'
                         alt='meme'
                       />
                     </>
