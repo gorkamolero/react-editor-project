@@ -36,7 +36,6 @@ const Paragraph = (props) => {
 
   useEffect(scrollToBottom, [])
 
-
   return (
     <>
       <NodeViewWrapper className='paragraph draggable-item'>
@@ -91,6 +90,7 @@ const Paragraph = (props) => {
                         className='my-2 ml-3 rounded-xl'
                         src={image}
                         alt='dp'
+                        contentEditable='false'
                       />
                     </div>
                   ) : (
@@ -110,6 +110,7 @@ const Paragraph = (props) => {
                         loop
                         className='ml-3 w-5/12 my-2 rounded-xl'
                         alt='meme'
+                        contentEditable='false'
                       />
                     </>
                   ) : (

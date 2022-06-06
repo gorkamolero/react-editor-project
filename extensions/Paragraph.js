@@ -46,6 +46,8 @@ export default Node.create({
     editor.chain().focus(1)
     // console.log(editor.state.selection.anchor)
     console.log(editor)
+    console.log(editor.view.state.selection)
+    // console.log(editor.state.doc.content.size - 2)
   },
 
   onTransaction({ editor }) {
@@ -54,26 +56,67 @@ export default Node.create({
 
   addCommands() {
     return {
+      moveTweet:
+        (index, direction) =>
+        ({ editor }) => {
+          const destIndex = index + direction
+          const tweets = editor.getJSON().content
+          if (destIndex < 0 || destIndex > tweets.length - 1) return
+
+          const srcTweet = tweets[index]
+          const destTweet = tweets[destIndex]
+
+          // check if we're moving a thread finisher tweet at an invalid index
+          if (destIndex === 0 || index === 0) {
+            // notif.error('Thread finisher is not allowed as first tweet')
+            return
+          }
+
+          // move tweet
+          tweets[destIndex] = srcTweet
+          tweets[index] = destTweet
+
+          // setTimeout: ensures we can reason on selection after editor content is updated
+          setTimeout(() => {
+            editor.commands.setContent(tweets, true)
+            editor.commands.setSelectionToTweetAtIndex(
+              destIndex,
+              destIndex > 0 ? 4 : -4
+            )
+            editor.commands.addToHistory(true)
+            // simpleScrollToTweet(0, true)
+          })
+        },
+      setSelectionToTweetAtIndex:
+        (index, offset) =>
+        ({ editor, commands }) => {
+          const { start } = tweetEditorPosition(editor, index)
+          commands.setTextSelection(start + offset)
+        },
+      moveTweetUp:
+        () =>
+        ({ editor, commands }) => {
+          commands.moveTweet(getSelectedTweetIndex(editor), -1)
+        },
+      moveTweetDown:
+        () =>
+        ({ editor, commands }) => {
+          commands.moveTweet(getSelectedTweetIndex(editor), +1)
+        },
       setParagraph:
         () =>
         ({ commands, editor }) => {
-          return commands.first([
-            () => commands.insertContent({ type: this.name }),
-            () => commands.focus(1)
-          ])
+          return commands.insertContent({ type: this.name })
         }
     }
   },
 
   addKeyboardShortcuts() {
     return {
-      'Mod-Enter': ({ editor }) => editor.commands.setParagraph(),
+      // 'Mod-Enter': ({ editor }) => editor.commands.setParagraph(),
       'alt-ArrowUp': ({ editor }) => editor.commands.setTextSelection(1),
-      'Mod-a': ({ editor }) =>
-        editor.commands.setTextSelection({
-          from: 0,
-          to: editor.state.selection.anchor
-        })
+      // 'alt-ArrowUp': () => this.editor.commands.moveTweetUp(),
+      // 'alt-ArrowDown': () => this.editor.commands.moveTweetDown()
     }
   }
 })

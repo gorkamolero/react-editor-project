@@ -15,6 +15,7 @@ import { BsFillImageFill } from 'react-icons/bs'
 import GifModal from './GifModal'
 import { Extension } from '@tiptap/core'
 import ActionBar from './ActionBar'
+import { CustomKeymap } from '../extensions/CustomKeymap'
 
 // const CustomExtension = Extension.create({
 //   name: 'customExtension',
@@ -36,6 +37,7 @@ const Tiptap = () => {
     extensions: [
       Document,
       Paragraph,
+      Image,
       Text,
       HardBreak,
       Placeholder.configure({
@@ -49,7 +51,8 @@ const Tiptap = () => {
       }),
       Link.configure({
         openOnClick: true
-      })
+      }),
+      CustomKeymap
     ],
     content: '',
     autofocus: 'start',
