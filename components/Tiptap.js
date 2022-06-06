@@ -1,7 +1,6 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import Document from '@tiptap/extension-document'
-import Paragraph from '../extensions/Paragraph'
 import Text from '@tiptap/extension-text'
 import HardBreak from '../extensions/Hardbreak'
 import Placeholder from '@tiptap/extension-placeholder'
@@ -10,38 +9,57 @@ import Mention from '@tiptap/extension-mention'
 import suggestion from './suggestion'
 import Link from '@tiptap/extension-link'
 import Image from '@tiptap/extension-image'
-import Dropcursor from '@tiptap/extension-dropcursor'
-import { BsFillImageFill } from 'react-icons/bs'
-import GifModal from './GifModal'
-import { Extension } from '@tiptap/core'
+import Tweet from '../extensions/Paragraph'
+import Highlight from '@tiptap/extension-highlight'
+import { History } from './History.ts'
+import { KVStorage } from './KVStorage.ts'
 import ActionBar from './ActionBar'
 import { CustomKeymap } from '../extensions/CustomKeymap'
-
-// const CustomExtension = Extension.create({
-//   name: 'customExtension',
-
-//   addStorage() {
-//     return {
-//       awesomeness: 1
-//     }
-//   },
-
-//   onUpdate() {
-//     this.storage.awesomeness += 1
-//   }
-// })
+import { CustomClipboardTextSerializer } from './CustomClipboardTextSerializer.ts'
+import StarterKit from '@tiptap/starter-kit'
 
 const Tiptap = () => {
   // const limit = 280
+
   const editor = useEditor({
     extensions: [
-      Document,
-      Paragraph,
-      Image,
-      Text,
-      HardBreak,
-      Placeholder.configure({
-        placeholder: 'Write something...'
+      StarterKit.configure({
+        // nodes
+        text: true,
+        blockquote: false,
+        bulletList: false,
+        codeBlock: false,
+        document: false,
+        hardBreak: false,
+        heading: false,
+        horizontalRule: false,
+        listItem: false,
+        orderedList: false,
+        paragraph: {
+          HTMLAttributes: {
+            class: 'tweet-p',
+            'data-typefully': 'true'
+          }
+        },
+        // marks
+        bold: false,
+        code: false,
+        italic: false,
+        strike: false,
+        // extensions
+        dropcursor: {
+          class: 'drop-cursor'
+        },
+        gapcursor: false,
+        history: false
+      }),
+      Document.extend({ content: 'tweet*' }),
+      Tweet,
+      Highlight.configure({
+        multicolor: true,
+        HTMLAttributes: {
+          style: 'color: inherit'
+        }
       }),
       Mention.configure({
         HTMLAttributes: {
@@ -52,10 +70,13 @@ const Tiptap = () => {
       Link.configure({
         openOnClick: true
       }),
-      CustomKeymap
+      CustomKeymap,
+      CustomClipboardTextSerializer,
+      History,
+      KVStorage
     ],
     content: '',
-    autofocus: 'start',
+    autofocus: 'start'
     // onUpdate({ editor }) {
     //   editor.chain().focus(1)
     // },

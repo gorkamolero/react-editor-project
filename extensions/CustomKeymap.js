@@ -43,13 +43,13 @@ export const CustomKeymap = Keymap.extend({
     }
 
     return {
-      "Mod-Enter": () => {
-        // Execute commands until one returns true (returning true stops the search for a command handler,
-        // and prevents other lower-priority extensions from getting called)
-        return this.editor.commands.first(({ commands }) => [
-          () => commands.splitBlock()
-        ])
-      },
+      // "Mod-Enter": () => {
+      //   // Execute commands until one returns true (returning true stops the search for a command handler,
+      //   // and prevents other lower-priority extensions from getting called)
+      //   return this.editor.commands.first(({ commands }) => [
+      //     () => commands.splitBlock()
+      //   ])
+      // },
       'Mod-a': handleSelectAll
     }
   }

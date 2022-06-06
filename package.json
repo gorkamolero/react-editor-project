@@ -10,11 +10,13 @@
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",
+    "@stitches/react": "^1.2.8",
     "@tiptap/core": "^2.0.0-beta.176",
     "@tiptap/extension-character-count": "^2.0.0-beta.26",
     "@tiptap/extension-document": "^2.0.0-beta.15",
     "@tiptap/extension-dropcursor": "^2.0.0-beta.25",
     "@tiptap/extension-hard-break": "^2.0.0-beta.30",
+    "@tiptap/extension-highlight": "^2.0.0-beta.33",
     "@tiptap/extension-image": "^2.0.0-beta.27",
     "@tiptap/extension-link": "^2.0.0-beta.38",
     "@tiptap/extension-mention": "^2.0.0-beta.97",
@@ -24,6 +26,7 @@
     "@tiptap/react": "^2.0.0-beta.109",
     "@tiptap/starter-kit": "^2.0.0-beta.185",
     "firebase": "^9.8.1",
+    "lodash.clonedeep": "^4.5.0",
     "next": "12.1.6",
     "react": "18.1.0",
     "react-dom": "18.1.0",
@@ -33,7 +36,9 @@
     "react-scroll-to-bottom": "^4.2.0",
     "react-tabs": "^5.1.0",
     "react-twitter-widgets": "^1.10.0",
-    "tippy.js": "^6.3.7"
+    "recoil": "^0.7.3",
+    "tippy.js": "^6.3.7",
+    "twitter-text": "^3.1.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.7",

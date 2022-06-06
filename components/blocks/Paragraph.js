@@ -16,16 +16,6 @@ const Paragraph = (props) => {
     tweetRef.current.scrollIntoView({ behavior: 'smooth' })
   }
 
-  // const addImage = (e) => {
-  //   e.preventDefault()
-  //   const url = window.prompt('URL')
-
-  //   if (url) {
-  //     console.log(url)
-  //     setImage(url)
-  //   }
-  // }
-
   const onImageChange = (e) => {
     const { files } = e.target
     const image = URL.createObjectURL(files[0])
@@ -39,12 +29,6 @@ const Paragraph = (props) => {
   return (
     <>
       <NodeViewWrapper className='paragraph draggable-item'>
-        <div
-          className='drag-handle'
-          contentEditable='false'
-          draggable='true'
-          data-drag-handle
-        />
         <div className='relative w-full'>
           <div className='absolute h-full border-r-2 border-gray-300/75 left-6'></div>
           <ul className='space-y-2'>
@@ -90,7 +74,6 @@ const Paragraph = (props) => {
                         className='my-2 ml-3 rounded-xl'
                         src={image}
                         alt='dp'
-                        contentEditable='false'
                       />
                     </div>
                   ) : (
@@ -110,7 +93,6 @@ const Paragraph = (props) => {
                         loop
                         className='ml-3 w-5/12 my-2 rounded-xl'
                         alt='meme'
-                        contentEditable='false'
                       />
                     </>
                   ) : (
@@ -120,6 +102,7 @@ const Paragraph = (props) => {
               </div>
             </li>
           </ul>
+          {/* Toolbar */}
           <div
             contentEditable={false}
             className={`-my-3 flex gap-2 items-center justify-end mb-0.5`}

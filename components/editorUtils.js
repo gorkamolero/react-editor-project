@@ -1,3 +1,39 @@
+import * as linkify from 'linkifyjs'
+import cloneDeep from 'lodash.clonedeep'
+import parseTweet from '../utils/parseTweet'
+import { TweetAttrs } from './TweetAttrs.ts'
+
+export function sanitizeContent(editor) {
+  let content = editor.getJSON().content
+  let selection = editor.view.state.selection.head
+  let sanitized = false
+
+  // content should not be empty
+  if (!content || content.length === 0) {
+    content = {
+      type: 'paragraph',
+      attrs: TweetAttrs.getDefaultAttrs(),
+      content: [{ type: 'paragraph' }]
+    }
+    sanitized = true
+    return { content, selection, sanitized }
+  }
+
+  // content should have at least one paragraph
+  content = content.map((tweet) => {
+    let newTweet = tweet
+    if (!tweet.content || tweet.content.length === 0) {
+      sanitized = true
+      newTweet.content = [{ type: 'paragraph' }]
+    }
+    return newTweet
+  })
+
+  return { content, selection, sanitized }
+}
+
+const NUM_NEWLINES_FOR_TWEET_SPLIT = 2
+
 export function convertEmptyParagraphsToNewTweets(editor) {
   let content = cloneDeep(editor.getJSON().content)
   if (!content) return
@@ -105,6 +141,28 @@ export function convertEmptyParagraphsToNewTweets(editor) {
   return { content: content, selection: cursorPosition, affectedIndex }
 }
 
+export function updatedTextAndCharCountAttrs(tweet) {
+  const newTweet = cloneDeep(tweet)
+  if (!newTweet.content) {
+    return { ...newTweet.attrs, text: '', charCount: 0 }
+  }
+
+  const text = textFromTweetNode(newTweet)
+  return { ...newTweet.attrs, text, charCount: parseTweet(text).weightedLength }
+}
+
+export function textFromTweetNode(tweet) {
+  let paragraphsText = (tweet.content ?? []).map((p) => {
+    if (p.content?.content) {
+      return p.content.content.map((el) => el.text).join('')
+    } else if (p.content) {
+      return p.content.map((el) => el.text).join('')
+    }
+  })
+  let text = paragraphsText.join('\n')
+  return text
+}
+
 export function tweetEditorPosition(editor, index) {
   let start = 0
   let end = 0
@@ -135,4 +193,175 @@ export function getSelectedTweetIndex(editor) {
   }
 
   return selectedTweetIndex
+}
+
+export function extractURLsFromText(tweetText) {
+  return linkify
+    .find(tweetText)
+    .filter((el) => el.type === 'url' && el.isLink === true)
+    .map((el) => el.href)
+}
+
+export function createEmptyTweetEditorModel() {
+  return {
+    type: 'tweet',
+    attrs: TweetAttrs.getDefaultAttrs(),
+    content: [{ type: 'paragraph' }]
+  }
+}
+
+export function shouldSmartSplitContent(content) {
+  return content.find((tweet) => shouldSmartSplitTweet(tweet))
+}
+
+export function smartSplitContent(content) {
+  const maxChars = 280
+
+  /// returns a spaced string from the joined text nodes inside a paragraph
+  function pToString(p) {
+    if (!p.content) return ''
+    return p.content.map((el) => el.text).join('')
+  }
+
+  /// trims empty paragraphs from the beginning and end of a list of paragraphs
+  function trimEmptyParagraphs(paragraphs) {
+    let newParagraphs = [...paragraphs]
+
+    let didFindFilledParagraph = false
+    let emptyPCount = 0
+
+    for (let pIndex = 0; pIndex < paragraphs.length; pIndex++) {
+      if (paragraphs[pIndex] && !paragraphs[pIndex].content) {
+        emptyPCount += 1
+
+        if (!didFindFilledParagraph || pIndex === paragraphs.length - 1) {
+          newParagraphs.splice(pIndex, emptyPCount)
+          emptyPCount = 0
+        }
+      } else {
+        didFindFilledParagraph = true
+      }
+    }
+    return newParagraphs
+  }
+
+  // merge multiple empty paragraphs into one at most
+  function compressEmptyParagraphs(paragraphs) {
+    let newParagraphs = []
+    for (let pIndex = 0; pIndex < paragraphs.length; pIndex++) {
+      if (
+        paragraphs[pIndex].content !== undefined ||
+        (newParagraphs.length > 0 &&
+          newParagraphs[newParagraphs.length - 1].content !== undefined)
+      ) {
+        newParagraphs.push(paragraphs[pIndex])
+      }
+    }
+    newParagraphs = trimEmptyParagraphs(newParagraphs)
+    return newParagraphs
+  }
+
+  content = content.map((tweet) => {
+    return { ...tweet, content: compressEmptyParagraphs(tweet.content) }
+  })
+
+  // until there is at least one tweet that needs and can to be split
+  while (shouldSmartSplitContent(content)) {
+    for (let tIndex = 0; tIndex < content.length; tIndex++) {
+      const tweet = content[tIndex]
+
+      // if the tweet exceeds max chars, and has more than one sentence or paragraph
+      if (shouldSmartSplitTweet(tweet)) {
+        let pForOldTweet = [] // will replace the content of the current tweet
+        let pForNewTweet = [] // the exceeding content for the new tweet, to be added after the current one
+
+        let charCount = 0
+        if (tweet.content.length > 1) {
+          // split at the paragraph that makes the tweet length exceed
+          for (let pIndex = 0; pIndex < tweet.content.length; pIndex++) {
+            const paragraph = tweet.content[pIndex]
+
+            // need to parse the paragraph text into a twitter-style text,
+            // in order to get the correct length (as it would be counted by Twitter)
+            charCount += parseTweet(pToString(paragraph)).weightedLength
+
+            if (charCount <= maxChars || pForOldTweet.length === 0) {
+              pForOldTweet.push(paragraph)
+            } else {
+              pForNewTweet.push(paragraph)
+            }
+          }
+        } else {
+          // if tweet has only one paragraph, split at the sentence that makes the tweet length exceed
+          const sentences = splitTweetTextInSentences(tweet)
+          const oldText = ''
+          const newText = ''
+          for (let sIndex = 0; sIndex < sentences.length; sIndex++) {
+            const sentence = sentences[sIndex]
+            // need to parse the sentence text into a twitter-style text,
+            // in order to get the correct length (as it would be counted by Twitter)
+            charCount += parseTweet(sentence).weightedLength
+            if (charCount <= maxChars || oldText.length === 0) {
+              oldText += sentence
+            } else {
+              newText += sentence
+            }
+          }
+          pForOldTweet = [
+            {
+              type: 'paragraph',
+              content: [{ type: 'paragraph', text: oldText }]
+            }
+          ]
+          pForNewTweet = [
+            {
+              type: 'paragraph',
+              content: [{ type: 'paragraph', text: newText }]
+            }
+          ]
+        }
+
+        pForOldTweet = trimEmptyParagraphs(pForOldTweet)
+        pForNewTweet = trimEmptyParagraphs(pForNewTweet)
+
+        // replace the content of the current tweet to avoid exceeding content
+        let oldTweet = { ...tweet, content: pForOldTweet }
+        oldTweet.attrs = { ...updatedTextAndCharCountAttrs(oldTweet) }
+
+        // add the exceeding content to the new tweet
+        let newTweet = {
+          type: 'paragraph',
+          content: pForNewTweet,
+          attrs: TweetAttrs.getDefaultAttrs()
+        }
+        newTweet.attrs = { ...updatedTextAndCharCountAttrs(newTweet) }
+
+        if (pForOldTweet.length === 0 || pForNewTweet.length === 0) {
+          // any change would be inconsequential, and would lead to an infinite loop
+          // so return current content
+          return content
+        }
+
+        content[tIndex] = oldTweet
+        content.splice(tIndex + 1, 0, newTweet)
+      }
+    }
+  }
+  return content
+}
+
+function shouldSmartSplitTweet(tweet) {
+  const maxChars = 280
+
+  return (
+    tweet.attrs.charCount > maxChars &&
+    (tweet.content.length > 1 || splitTweetTextInSentences(tweet).length > 1)
+  )
+}
+
+function splitTweetTextInSentences(tweet) {
+  return tweet.attrs.text
+    .replace(/([.?!]\s)(?=[\w])/g, '$1|') // modified from original here: https://stackoverflow.com/a/18914855/2922642
+    .split('|')
+    .filter((s) => s.length > 0)
 }

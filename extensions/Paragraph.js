@@ -2,21 +2,138 @@ import { Node, mergeAttributes } from '@tiptap/core'
 import { ReactNodeViewRenderer } from '@tiptap/react'
 import Paragraph from '../components/blocks/Paragraph'
 import {
+  convertEmptyParagraphsToNewTweets,
+  createEmptyTweetEditorModel,
   getSelectedTweetIndex,
+  sanitizeContent,
   tweetEditorPosition
 } from '../components/editorUtils'
+import cloneDeep from 'lodash.clonedeep'
+import parseTweet from '../utils/parseTweet'
+import { TweetAttrs } from '../components/TweetAttrs.ts'
+import { addTweetCommandEnter } from '../hooks/useAddTweet'
 
-export default Node.create({
-  name: 'paragraph',
+function shouldPreventOnUpdate({ editor, transaction }) {
+  // Fix writing accents and diacritics in Safari.
+  const ignoredChars = new Set(['`', '´', '¨', 'ˆ', '˜'])
+
+  const insertedChar =
+    transaction?.steps?.[0]?.slice?.content?.content?.[0]?.text
+  if (ignoredChars.has(insertedChar)) {
+    return true
+  }
+
+  return false
+}
+
+const Tweet = Node.create({
+  name: 'tweet',
+  group: 'block',
+  content: 'paragraph*',
+  inline: false,
   draggable: true,
-  addOptions: {
-    HTMLAttributes: {
-      draggable: true
+  addAttributes() {
+    return TweetAttrs.getDefaultAttrs()
+  },
+  addAttributes() {
+    return TweetAttrs.getDefaultAttrs()
+  },
+
+  onUpdate({ editor, transaction }) {
+    if (shouldPreventOnUpdate({ editor, transaction })) {
+      return
+    }
+
+    let {
+      content: sanitizedContent,
+      selection: sanitizedSelection,
+      sanitized
+    } = sanitizeContent(editor)
+    if (sanitized) {
+      editor
+        .chain()
+        .setMeta('preventUpdate', true)
+        .setContent(sanitizedContent)
+        .setTextSelection(sanitizedSelection)
+        .run()
+    }
+
+    const initialTweetsNumber = editor.getJSON().content.length
+    let { content, selection, affectedIndex } =
+      convertEmptyParagraphsToNewTweets(editor)
+
+    // Set Thread Finisher to false in case it happened to arrive at index 0 of the thread
+    // It can happen by deleting all preceding tweets or by drag and dropping
+    if (content[0].attrs.isThreadFinisher === true) {
+      content[0].attrs = { ...content[0].attrs, isThreadFinisher: false }
+      notif.error('Thread finisher removed from first tweet.')
+    }
+
+    // sanitize in case of tweet merge
+    editor
+      .chain()
+      .setMeta('preventUpdate', true)
+      .setContent(content)
+      .setTextSelection(selection)
+      .run()
+
+    // * In case a tweet was split, cursor position should be at the stat of the new tweet.
+    // needed to fix glitches caused by some needed logic in convertEmptyParagraphsToNewTweets.
+    if (initialTweetsNumber + 1 === content.length) {
+      const { start } = tweetEditorPosition(editor, affectedIndex + 1)
+      editor.commands.setTextSelection(start + 2)
+      selection = start + 2
+    }
+
+    const chain = editor.chain()
+
+    // Highlight text over char count:
+    // for (let tIndex = Math.max(affectedIndex - 1, 0); tIndex < Math.min(content.length, affectedIndex + 2); tIndex++) {
+    for (let tIndex = 0; tIndex < content.length; tIndex++) {
+      const { start, end } = tweetEditorPosition(editor, tIndex)
+      chain
+        .setMeta('preventUpdate', true)
+        .setTextSelection({ from: start, to: end })
+        .unsetHighlight()
+
+      const headNumbering =
+        (editor.storage.kvStorage.headNumbering ?? [])[tIndex] ?? ''
+      const tailNumbering =
+        (editor.storage.kvStorage.tailNumbering ?? [])[tIndex] ?? ''
+      const currNumbering = headNumbering + tailNumbering
+      const parsedTweet = parseTweet(currNumbering + content[tIndex].attrs.text)
+
+      if (!parsedTweet.valid) {
+        const validRangeEnd = parsedTweet.validRangeEnd + 1
+        const pCount =
+          content[tIndex].attrs.text
+            .substring(0, parsedTweet.validRangeEnd)
+            .split('\n').length + 1
+        const outOfBoundsStart = start + validRangeEnd + pCount
+        chain
+          .setTextSelection({
+            from: outOfBoundsStart - currNumbering.length,
+            to: end
+          })
+          .setHighlight({ color: 'hsla(360, 100%, 65%, 0.25)' })
+      }
+    }
+    chain.setTextSelection(selection).run()
+
+    const finalTweetsNumber = content.length
+    if (initialTweetsNumber !== finalTweetsNumber) {
+      // simpleScrollToTweet()
+    }
+
+    editor.chain().focus(1)
+
+    // Add to History
+    if (editor.extensionStorage.customHistory.shouldIgnoreAddToHistory) {
+      editor.extensionStorage.customHistory.shouldIgnoreAddToHistory = false
+    } else {
+      editor.commands.addToHistory()
     }
   },
-  group: 'block',
-  content: 'inline*',
-  selectable: false,
 
   parseHTML: () => {
     return [{ tag: 'div[data-type="draggable-item"]' }]
@@ -42,13 +159,10 @@ export default Node.create({
   //   }
   // },
 
-  onUpdate({ editor, state }) {
-    editor.chain().focus(1)
-    // console.log(editor.state.selection.anchor)
-    console.log(editor)
-    console.log(editor.view.state.selection)
-    // console.log(editor.state.doc.content.size - 2)
-  },
+  // onUpdate({ editor, state }) {
+  //   editor.chain().focus(1)
+  //   console.log(editor)
+  // },
 
   onTransaction({ editor }) {
     console.log(editor.view.state.selection)
@@ -113,10 +227,13 @@ export default Node.create({
 
   addKeyboardShortcuts() {
     return {
-      // 'Mod-Enter': ({ editor }) => editor.commands.setParagraph(),
-      'alt-ArrowUp': ({ editor }) => editor.commands.setTextSelection(1),
+      'Mod-Enter': () => {
+        addTweetCommandEnter(this.editor)
+      }
       // 'alt-ArrowUp': () => this.editor.commands.moveTweetUp(),
       // 'alt-ArrowDown': () => this.editor.commands.moveTweetDown()
     }
   }
 })
+
+export default Tweet
