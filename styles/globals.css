@@ -10,6 +10,7 @@
 
 * {
   font-family: 'Mukta', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  z-index: 1 !important;
 }
 
 html,
@@ -56,9 +57,14 @@ button {
 }
 
 .ProseMirror img {
-  width: 40%;
+  width: 150px;
   height: auto;
   margin-top: 0.5rem;
+}
+
+.ProseMirror video {
+  width: 150px;
+  height: auto;
 }
 
 #editor {
@@ -172,3 +178,4 @@ label {
   gap: 0.5rem;
   align-items: center;
 }
+

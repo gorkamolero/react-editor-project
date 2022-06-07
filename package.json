@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/core": "^11.0.0",
     "@emotion/react": "^11.9.0",
+    "@radix-ui/react-dropdown-menu": "^0.1.6",
     "@stitches/react": "^1.2.8",
     "@tiptap/core": "^2.0.0-beta.176",
     "@tiptap/extension-character-count": "^2.0.0-beta.26",
@@ -26,19 +28,26 @@
     "@tiptap/react": "^2.0.0-beta.109",
     "@tiptap/starter-kit": "^2.0.0-beta.185",
     "firebase": "^9.8.1",
+    "framer-motion": "^6.3.10",
     "lodash.clonedeep": "^4.5.0",
+    "lodash.flatten": "^4.4.0",
     "next": "12.1.6",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-giphy-searchbox": "^1.5.4",
+    "react-hot-toast": "^2.2.0",
+    "react-hotkeys-hook": "^3.4.6",
     "react-icons": "^4.3.1",
     "react-modal": "^3.15.1",
     "react-scroll-to-bottom": "^4.2.0",
     "react-tabs": "^5.1.0",
+    "react-tippy": "^1.4.0",
     "react-twitter-widgets": "^1.10.0",
     "recoil": "^0.7.3",
+    "tinycolor2": "^1.4.2",
     "tippy.js": "^6.3.7",
-    "twitter-text": "^3.1.0"
+    "twitter-text": "^3.1.0",
+    "use-debounce": "^8.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.7",

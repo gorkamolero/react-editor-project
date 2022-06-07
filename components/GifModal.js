@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Modal from 'react-modal'
 import { FiSend } from 'react-icons/fi'
 import ReactGiphySearchbox from 'react-giphy-searchbox'
@@ -33,6 +33,14 @@ const GifModal = ({ setGif }) => {
     setIsOpen(false)
   }
 
+  const handleSubmit = (item) => {
+    console.log(item.images.original.mp4)
+    setTimeout(() => {
+      setGif(item.images.original.mp4)
+    }, 1000)
+    setIsOpen(false)
+  }
+
   return (
     <>
       <div>
@@ -47,22 +55,16 @@ const GifModal = ({ setGif }) => {
           ariaHideApp={false}
           contentLabel='Example Modal'
         >
-          <div className='flex items-center justify-between mb-3'>
+          <div className='flex items-center justify-between mb-3 z-50'>
             <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Upload GIF</h2>
-            <button className='text-xl' onClick={closeModal}>
-              <FiSend />
-            </button>
           </div>
           <div className='searchboxWrapper' style={{ width: '100%' }}>
             <ReactGiphySearchbox
               apiKey='1hqexOwDJU7auRDWAXogTvGYjnqruv0B'
-              onSelect={(item) => {
-                console.log(item)
-                setGif(item.images.original.mp4)
-              }}
+              onSelect={(item) => handleSubmit(item)}
               masonryConfig={[
                 { columns: 2, imageWidth: 110, gutter: 5 },
-                { mq: '700px', columns: 3, imageWidth: 120, gutter: 2 }
+                { mq: '700px', columns: 5, imageWidth: 120, gutter: 2 }
               ]}
             />
           </div>

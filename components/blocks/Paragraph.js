@@ -33,7 +33,7 @@ const Paragraph = (props) => {
       <NodeViewWrapper className='paragraph draggable-item'>
         <div
           className='drag-handle'
-          contentEditable='false'
+          contentEditable={false}
           draggable='true'
           data-drag-handle
         />
@@ -69,17 +69,17 @@ const Paragraph = (props) => {
                 <div>
                   <TwitterLinkView url={text} />
                 </div>
-                <div className=''>
+                <div className='z-10'>
                   {image ? (
                     <div>
-                      {/* <div
+                      <div
                         onClick={() => setImage('')}
-                        className='relative top-10 -mt-6 left-44 bg-gray-50 p-0.5 rounded-full w-max cursor-pointer'
+                        className='relative top-10 -mt-6 left-32 bg-gray-50 p-0.5 rounded-full w-max cursor-pointer z-10'
                       >
                         <BsX color='black' />
-                      </div> */}
+                      </div>
                       <img
-                        className='my-2 ml-3 rounded-xl'
+                        className='my-2 ml-3 rounded-xl z-0'
                         src={image}
                         alt='dp'
                       />
@@ -89,17 +89,17 @@ const Paragraph = (props) => {
                   )}
                   {gif ? (
                     <>
-                      {/* <div
+                      <div
                         onClick={() => setGif('')}
-                        className='relative top-10 left-48 bg-gray-50 p-0.5 rounded-full w-max cursor-pointer -mt-6 z-10'
+                        className='relative top-10 left-32 bg-gray-50 p-0.5 rounded-full w-max cursor-pointer -mt-6 z-10'
                       >
                         <BsX color='black' />
-                      </div> */}
+                      </div>
                       <video
                         autoPlay
                         loop
                         id='gif'
-                        className='ml-3 w-5/12 my-2 rounded-xl'
+                        className='ml-3 my-2 rounded-xl z-0'
                         alt='meme'
                       >
                         <source src={gif} type='video/mp4' />
