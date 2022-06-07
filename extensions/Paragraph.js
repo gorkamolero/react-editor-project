@@ -164,9 +164,9 @@ const Tweet = Node.create({
   //   console.log(editor)
   // },
 
-  onTransaction({ editor }) {
-    console.log(editor.view.state.selection)
-  },
+  // onTransaction({ editor }) {
+  //   console.log(editor.view.state.selection)
+  // },
 
   addCommands() {
     return {

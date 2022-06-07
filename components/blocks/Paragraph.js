@@ -22,13 +22,21 @@ const Paragraph = (props) => {
     setImage(image)
   }
 
-  const percentage = props.editor ? Math.round((100 / 280) * characterCount) : 0
+  useEffect(() => {
+    scrollToBottom
+  }, [])
 
-  useEffect(scrollToBottom, [])
+  const percentage = props.editor ? Math.round((100 / 280) * characterCount) : 0
 
   return (
     <>
       <NodeViewWrapper className='paragraph draggable-item'>
+        <div
+          className='drag-handle'
+          contentEditable='false'
+          draggable='true'
+          data-drag-handle
+        />
         <div className='relative w-full'>
           <div className='absolute h-full border-r-2 border-gray-300/75 left-6'></div>
           <ul className='space-y-2'>
@@ -88,12 +96,14 @@ const Paragraph = (props) => {
                         <BsX color='black' />
                       </div> */}
                       <video
-                        src={gif}
                         autoPlay
                         loop
+                        id='gif'
                         className='ml-3 w-5/12 my-2 rounded-xl'
                         alt='meme'
-                      />
+                      >
+                        <source src={gif} type='video/mp4' />
+                      </video>
                     </>
                   ) : (
                     ''
