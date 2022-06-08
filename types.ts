@@ -1,5 +1,5 @@
-import { ICoupon } from "types-paywall";
-import { numberingFormats } from "./components/editor/TweetNumberingModal";
+// import { ICoupon } from "types-paywall";
+// import { numberingFormats } from "./components/editor/TweetNumberingModal";
 
 export type MonetizationStatus = "free" | "subscribed" | "canceled_with_access" | "past_due" | "gifted";
 
