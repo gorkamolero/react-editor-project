@@ -60,11 +60,7 @@ const Paragraph = (props) => {
               </div>
               <div className='ml-12'>
                 <NodeViewContent
-                  className={`content w-60 md:w-64 lg:w-96 pl-3 mb-2 text-md ${
-                    props.node.content.size > 280
-                      ? 'text-red-500'
-                      : 'text-gray-600'
-                  } ${props.node.content.size === 0 ? 'blank' : ''} `}
+                  className={`content w-60 md:w-64 lg:w-96 pl-3 mb-2 text-md`}
                 />
                 <div>
                   <TwitterLinkView url={text} />
@@ -118,7 +114,7 @@ const Paragraph = (props) => {
             className={`-my-3 flex gap-2 items-center justify-end mb-0.5`}
           >
             <div className='text-gray-500/75 mr-1'>
-              {props.node.content.size}/280
+              {props.node.content.size - 2}/280
             </div>
             <div>
               <svg

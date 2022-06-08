@@ -17,9 +17,15 @@ import ActionBar from './ActionBar'
 import { CustomKeymap } from '../extensions/CustomKeymap'
 import { CustomClipboardTextSerializer } from './CustomClipboardTextSerializer.ts'
 import StarterKit from '@tiptap/starter-kit'
+import { createEmptyTweetEditorModel } from './editorUtils'
 
 const Tiptap = () => {
   // const limit = 280
+
+  const initialContent = {
+    type: 'doc',
+    content: [createEmptyTweetEditorModel()]
+  }
 
   const editor = useEditor({
     extensions: [
@@ -75,7 +81,7 @@ const Tiptap = () => {
       History,
       KVStorage
     ],
-    content: '',
+    content: initialContent,
     autofocus: 'start'
     // onUpdate({ editor }) {
     //   editor.chain().focus(1)
