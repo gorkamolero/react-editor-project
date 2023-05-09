@@ -2,7 +2,7 @@ import React from 'react'
 import { NodeViewWrapper, NodeViewContent } from '@tiptap/react'
 import { GrDrag } from 'react-icons/gr'
 
-export default () => {
+const Component = () => {
   return (
     <NodeViewWrapper className='flex items-center'>
       <GrDrag className='text-gray-400 grab' data-drag-handle size={15} />
@@ -13,3 +13,5 @@ export default () => {
     </NodeViewWrapper>
   )
 }
+
+export default Component;

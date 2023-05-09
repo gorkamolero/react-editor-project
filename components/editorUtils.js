@@ -1,7 +1,7 @@
 import * as linkify from 'linkifyjs'
 import cloneDeep from 'lodash.clonedeep'
 import parseTweet from '../utils/parseTweet'
-import { TweetAttrs } from './TweetAttrs.ts'
+import { TweetAttrs } from './TweetAttrs'
 
 export function sanitizeContent(editor) {
   let content = editor.getJSON().content
@@ -294,8 +294,8 @@ export function smartSplitContent(content) {
         } else {
           // if tweet has only one paragraph, split at the sentence that makes the tweet length exceed
           const sentences = splitTweetTextInSentences(tweet)
-          const oldText = ''
-          const newText = ''
+          let oldText = ''
+          let newText = ''
           for (let sIndex = 0; sIndex < sentences.length; sIndex++) {
             const sentence = sentences[sIndex]
             // need to parse the sentence text into a twitter-style text,
