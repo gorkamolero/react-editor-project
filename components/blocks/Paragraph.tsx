@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from "react";
+import { Editor } from "@tiptap/core";
 import { NodeViewWrapper, NodeViewContent } from "@tiptap/react";
+
 import GifModal from "../GifModal";
 import { BsFillImageFill, BsPlusCircle, BsX } from "react-icons/bs";
 import Image from "next/image";
 import dp from "../../assets/dp.jpeg";
 import TwitterLinkView from "../TwitterLinkView";
 
-const Paragraph = (props) => {
+interface ParagraphProps {
+	editor: Editor;
+	node: any;
+	getPos: () => number;
+}
+
+const Paragraph = (props: ParagraphProps) => {
 	const [image, setImage] = useState("");
 	const [gif, setGif] = useState("");
 	let text = String(props.editor.getText());
@@ -16,7 +24,7 @@ const Paragraph = (props) => {
 		tweetRef.current.scrollIntoView({ behavior: "smooth" });
 	};
 
-	const onImageChange = (e) => {
+	const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { files } = e.target;
 		const image = URL.createObjectURL(files[0]);
 		setImage(image);
