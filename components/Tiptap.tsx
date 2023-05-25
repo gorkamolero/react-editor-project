@@ -17,7 +17,7 @@ import { CustomKeymap } from '../extensions/CustomKeymap'
 import { CustomClipboardTextSerializer } from './CustomClipboardTextSerializer'
 import StarterKit from '@tiptap/starter-kit'
 import { createEmptyTweetEditorModel } from './editorUtils'
-import UniqueID from '../extensions/UniqueID'
+import UniqueID from '../extensions/UniqueIDTiptap'
 
 const Tiptap = () => {
   // const limit = 280
@@ -31,6 +31,7 @@ const Tiptap = () => {
     extensions: [
       StarterKit.configure({
         // nodes
+        // TODO: Text, false?
         text: false,
         blockquote: false,
         bulletList: false,
@@ -124,14 +125,6 @@ const Tiptap = () => {
   }
 
   // const characterCount = editor.storage.characterCount.characters()
-
-  const addImage = () => {
-    const url = window.prompt('URL')
-
-    if (url) {
-      editor.chain().setImage({ src: url }).run()
-    }
-  }
 
   const clearNode = () => {
     editor.commands.clearContent()

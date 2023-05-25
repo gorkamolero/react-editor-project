@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['typefully-avatars.s3.amazonaws.com', 'media3.giphy.com']
+    domains: ['media3.giphy.com']
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if
