@@ -8,7 +8,6 @@ import CharacterCount from '@tiptap/extension-character-count'
 import Mention from '@tiptap/extension-mention'
 import suggestion from './suggestion'
 import Link from '@tiptap/extension-link'
-import Image from '@tiptap/extension-image'
 import Tweet from '../extensions/Paragraph'
 import Highlight from '@tiptap/extension-highlight'
 import { History } from './History'
@@ -18,6 +17,7 @@ import { CustomKeymap } from '../extensions/CustomKeymap'
 import { CustomClipboardTextSerializer } from './CustomClipboardTextSerializer'
 import StarterKit from '@tiptap/starter-kit'
 import { createEmptyTweetEditorModel } from './editorUtils'
+import UniqueID from '../extensions/UniqueID'
 
 const Tiptap = () => {
   // const limit = 280
@@ -79,7 +79,10 @@ const Tiptap = () => {
       CustomKeymap,
       CustomClipboardTextSerializer,
       History,
-      KVStorage
+      KVStorage,
+      UniqueID.configure({
+        types: ['tweet'],
+      }),
     ],
     content: initialContent,
     autofocus: 'start'

@@ -3,10 +3,9 @@ import cloneDeep from "lodash.clonedeep";
 
 import getSelectedTweetIndex from "./getSelectedTweetIndex";
 import { TweetAttrs } from "../../components/TweetAttrs";
-import updatedTextAndCharCountAttrs from "./updatedTextAndCharCountAttrs";
+import updatedAttrs from "./updatedAttrs";
 import { IRichTextTweet } from "../../types/IRichTextTweet";
 
-// TODO: type of the editor is not known right now, setting it to any
 function convertEmptyParagraphsToNewTweets(editor: Editor) {
 	const content = cloneDeep(editor.getJSON().content);
 	if (!content) return;
@@ -73,8 +72,6 @@ function convertEmptyParagraphsToNewTweets(editor: Editor) {
 				// if we are splitting from the middle of the tweet we should "move" all media from the current tweet (tweetIndex) to the new tweet
 				if (!splitAtTweetEnd) {
 					attrsForNewTweet.images = tweetNode.attrs.images;
-					attrsForNewTweet.videos = tweetNode.attrs.videos;
-					attrsForNewTweet.gifs = tweetNode.attrs.gifs;
 					content[tweetIndex].attrs = {
 						...content[tweetIndex].attrs,
 						images: [],
@@ -108,8 +105,10 @@ function convertEmptyParagraphsToNewTweets(editor: Editor) {
 				break;
 			}
 		}
-		content[tweetIndex].attrs = updatedTextAndCharCountAttrs(
-			content[tweetIndex] as IRichTextTweet
+		content[tweetIndex].attrs = updatedAttrs(
+			content[tweetIndex] as IRichTextTweet,
+			content,
+			tweetIndex
 		);
 	}
 

@@ -3,8 +3,9 @@ import { IMediaAttrObj } from "../types";
 export interface ITweetAttrs {
 	text: string;
 	charCount: number;
-	images: IMediaAttrObj[];
-	gifs: IMediaAttrObj[];
-	videos: IMediaAttrObj[];
+  link: string;
+  isSelected: boolean;
 	isThreadFinisher: boolean;
+	images: IMediaAttrObj[];
+	id: string;
 }

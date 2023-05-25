@@ -15,19 +15,11 @@ interface ParagraphProps {
 }
 
 const Paragraph = (props: ParagraphProps) => {
-	const [image, setImage] = useState("");
-	const [gif, setGif] = useState("");
 	let text = String(props.editor.getText());
 	const tweetRef = React.useRef(null);
 	const characterCount = props.node.content.size;
 	const scrollToBottom = () => {
 		tweetRef.current.scrollIntoView({ behavior: "smooth" });
-	};
-
-	const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const { files } = e.target;
-		const image = URL.createObjectURL(files[0]);
-		setImage(image);
 	};
 
 	useEffect(() => {
@@ -74,46 +66,6 @@ const Paragraph = (props: ParagraphProps) => {
 								/>
 								<div>
 									<TwitterLinkView url={text} />
-								</div>
-								<div className="z-10">
-									{image ? (
-										<div>
-											<div
-												onClick={() => setImage("")}
-												className="relative top-10 -mt-6 left-32 bg-gray-50 p-0.5 rounded-full w-max cursor-pointer z-10"
-											>
-												<BsX color="black" />
-											</div>
-											{/* eslint-disable-next-line @next/next/no-img-element */}
-											<img
-												className="my-2 ml-3 rounded-xl z-0"
-												src={image}
-												alt="dp"
-											/>
-										</div>
-									) : (
-										""
-									)}
-									{gif ? (
-										<>
-											<div
-												onClick={() => setGif("")}
-												className="relative top-10 left-32 bg-gray-50 p-0.5 rounded-full w-max cursor-pointer -mt-6 z-10"
-											>
-												<BsX color="black" />
-											</div>
-											<video
-												autoPlay
-												loop
-												id="gif"
-												className="ml-3 my-2 rounded-xl z-0"
-											>
-												<source src={gif} type="video/mp4" />
-											</video>
-										</>
-									) : (
-										""
-									)}
 								</div>
 							</div>
 						</li>
@@ -168,30 +120,6 @@ const Paragraph = (props: ParagraphProps) => {
 						>
 							<BsPlusCircle size={16} className="text-gray-600" />
 						</button>
-						{/* <button
-            onMouseDown={(e) => {
-              e.preventDefault()
-              props.deleteNode()
-              setImage('')
-            }}
-          >
-            Delete
-          </button> */}
-						<div>
-							{/* <button onMouseDown={addImage}>
-                <BsFillImageFill size={18} className='text-gray-500' />
-              </button> */}
-							<label>
-								<input type="file" name="media" onChange={onImageChange} />
-								<BsFillImageFill
-									size={18}
-									className="relative -top-7 left-1 text-gray-500"
-								/>
-							</label>
-						</div>
-						<div>
-							<GifModal setGif={setGif} />
-						</div>
 					</div>
 				</div>
 			</NodeViewWrapper>

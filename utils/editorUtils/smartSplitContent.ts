@@ -1,5 +1,5 @@
 import { TweetAttrs } from "../../components/TweetAttrs";
-import updatedTextAndCharCountAttrs from "./updatedTextAndCharCountAttrs";
+import updatedTextAndCharCountAttrs from "./updatedAttrs";
 import shouldSmartSplitContent from "./shouldSmartSplitContent";
 import shouldSmartSplitTweet from "./shouldSmartSplitTweet";
 import parseTweet from "../parseTweet";

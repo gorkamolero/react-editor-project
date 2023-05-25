@@ -10,14 +10,17 @@ export class TweetAttrs {
 		default: [],
 		stripIfUnchanged: true,
 	};
-	static gifs: AttrsMeta<IMediaAttrObj[]> = {
-		default: [],
-		stripIfUnchanged: true,
-	};
-	static videos: AttrsMeta<IMediaAttrObj[]> = {
-		default: [],
-		stripIfUnchanged: true,
-	};
+	
+	static link: AttrsMeta<string> = {
+    default: '',
+    stripIfUnchanged: true,
+  };
+	
+  static isSelected: AttrsMeta<boolean> = {
+    default: false,
+    stripIfUnchanged: true,
+  };
+	
 	static isThreadFinisher: AttrsMeta<boolean> = {
 		default: false,
 		stripIfUnchanged: true,
@@ -25,11 +28,12 @@ export class TweetAttrs {
 
 	static getDefaultAttrs(): ITweetAttrs {
 		return {
+			id: TweetAttrs.id.default,
 			text: TweetAttrs.text.default,
 			charCount: TweetAttrs.charCount.default,
+			link: TweetAttrs.link.default,
+			isSelected: TweetAttrs.isSelected.default,
 			images: TweetAttrs.images.default,
-			gifs: TweetAttrs.gifs.default,
-			videos: TweetAttrs.videos.default,
 			isThreadFinisher: TweetAttrs.isThreadFinisher.default,
 		};
 	}

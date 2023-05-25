@@ -3,7 +3,6 @@ import Head from "next/head";
 import Tiptap from "../components/Tiptap";
 import ScrollToBottom from "react-scroll-to-bottom";
 import { css } from "@emotion/react";
-import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 
 export default function Home() {
@@ -20,7 +19,6 @@ export default function Home() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<section>
-				<Header sidebar={sidebar} setSidebar={setSidebar} />
 				<main className="flex">
 					<div
 						className={`py-2 px-4 hidden lg:block ${sidebar ? "w-72" : "w-0"} `}

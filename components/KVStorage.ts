@@ -1,5 +1,4 @@
 import { Extension } from "@tiptap/core";
-import deepEqual from "../utils/deepEqual";
 
 export interface KVStorageOptions {}
 
