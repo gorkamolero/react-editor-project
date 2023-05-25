@@ -94,8 +94,8 @@ const suggestion: SuggestionItem = {
 			},
 
 			onExit() {
-				popup[0].destroy();
-				component.destroy();
+				popup && popup[0].destroy();
+				component && component.destroy();
 			},
 		};
 	},

@@ -31,7 +31,7 @@ const Tiptap = () => {
     extensions: [
       StarterKit.configure({
         // nodes
-        text: true,
+        text: false,
         blockquote: false,
         bulletList: false,
         codeBlock: false,
@@ -44,7 +44,6 @@ const Tiptap = () => {
         paragraph: {
           HTMLAttributes: {
             class: 'tweet-p',
-            'data-typefully': 'true'
           }
         },
         // marks
