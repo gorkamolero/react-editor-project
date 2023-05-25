@@ -4,6 +4,7 @@ import cloneDeep from "lodash.clonedeep";
 import getSelectedTweetIndex from "./getSelectedTweetIndex";
 import { TweetAttrs } from "../../components/TweetAttrs";
 import updatedTextAndCharCountAttrs from "./updatedTextAndCharCountAttrs";
+import { IRichTextTweet } from "../../types/IRichTextTweet";
 
 // TODO: type of the editor is not known right now, setting it to any
 function convertEmptyParagraphsToNewTweets(editor: Editor) {
@@ -108,7 +109,7 @@ function convertEmptyParagraphsToNewTweets(editor: Editor) {
 			}
 		}
 		content[tweetIndex].attrs = updatedTextAndCharCountAttrs(
-			content[tweetIndex]
+			content[tweetIndex] as IRichTextTweet
 		);
 	}
 
