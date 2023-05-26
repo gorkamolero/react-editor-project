@@ -7,7 +7,7 @@ import updatedAttrs from "./updatedAttrs";
 import { IRichTextTweet } from "../../types/IRichTextTweet";
 
 function convertEmptyParagraphsToNewTweets(editor: Editor) {
-	let content = cloneDeep(editor.getJSON().content);
+	let content = editor.getJSON().content;
 	if (!content) return;
 
 	let cursorPosition = editor.view.state.selection.head;

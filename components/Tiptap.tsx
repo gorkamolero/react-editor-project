@@ -8,7 +8,6 @@ import Tweet from '../extensions/Paragraph'
 import Highlight from '@tiptap/extension-highlight'
 import { History } from './History'
 import { KVStorage } from './KVStorage'
-import ActionBar from './ActionBar'
 import { CustomKeymap } from '../extensions/CustomKeymap'
 import { CustomClipboardTextSerializer } from './CustomClipboardTextSerializer'
 import StarterKit from '@tiptap/starter-kit'
@@ -138,9 +137,6 @@ const Tiptap = () => {
           scrollPaddingBlockEnd: '50%'
         }}
       />
-      <div className='fixed bottom-b w-80 md:w-96'>
-        <ActionBar />
-      </div>
       {/* <div className='flex gap-2 items-center mt-2 text-gray-500'>
         <div>
           {characterCount}/{limit} Characters

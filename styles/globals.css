@@ -56,12 +56,6 @@ button {
   pointer-events: none;
 }
 
-.ProseMirror img {
-  width: 150px;
-  height: auto;
-  margin-top: 0.5rem;
-}
-
 .ProseMirror video {
   width: 150px;
   height: auto;

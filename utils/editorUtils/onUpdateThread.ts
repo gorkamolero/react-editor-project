@@ -7,7 +7,6 @@ import parseTweet from "../parseTweet";
 import extractMentions from "./extractMentions";
 
 const onUpdateThread = ({ editor, transaction }: { editor: Editor; transaction: any }) => {
-  console.log('YOLO this is working')
   if (shouldPreventOnUpdate({ transaction })) {
     return;
   }
