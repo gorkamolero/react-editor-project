@@ -18,27 +18,48 @@ function convertEmptyParagraphsToNewTweets(editor: Editor) {
 	for (let tweetIndex = 0; tweetIndex < content.length; tweetIndex++) {
 		let emptyParagraphsCount = 0;
 		const tweetNode = content[tweetIndex];
-		if (!tweetNode.content) continue;
+    const tweetNodeContent = tweetNode.content;
+		
+		if (!tweetNodeContent) continue;
 
 		// iterate over the tweet content, until we find enough empty paragraphs to split tweets
 		for (let pIndex = 0; pIndex < tweetNode.content.length; pIndex++) {
 			const pNode = tweetNode.content[pIndex];
 
 			// hitting a written paragraph. reset count
-			if (pNode.content) {
-				emptyParagraphsCount = 0;
-				continue;
-			}
+			const hasContent = !!pNode.content;
+      const doesntHaveContent = !hasContent;
 
-			// avoid considering the current paragraph if it is the last one
-			else if (pIndex === tweetNode.content.length - 1) {
-				continue;
-			}
+      const hasFirstChild = hasContent && !!pNode.content[0];
+      const firstChildIsNotParagraph =
+        hasContent && pNode.content[0].type !== 'paragraph';
+      const firstChildTextIsEmpty = hasContent && pNode.content[0].text === '';
 
-			// hitting an empty paragraph. increment counter
-			else {
-				emptyParagraphsCount++;
-			}
+      const isEmptyText =
+        hasFirstChild && firstChildIsNotParagraph && firstChildTextIsEmpty;
+
+      const contentHasNoContent = hasContent && !pNode.content[0].content;
+
+      const isEmptyParagraph =
+        hasFirstChild && !firstChildIsNotParagraph && contentHasNoContent;
+
+      const isEmpty = doesntHaveContent || isEmptyText || isEmptyParagraph;
+
+      const isImage = pNode.type === 'image';
+
+      if (!isEmpty || isImage) {
+        emptyParagraphsCount = 0;
+        continue;
+      }
+      // avoid considering the current paragraph if it is the last one
+      else if (pIndex === tweetNodeContent.length - 1) {
+        continue;
+      }
+
+      // hitting an empty paragraph. increment counter
+      else {
+        emptyParagraphsCount++;
+      }
 
 			// added one last empty paragraph on top of two already empty paragraphs
 			const splitAtTweetEnd =
