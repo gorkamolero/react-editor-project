@@ -10,12 +10,12 @@ const onUpdateThread = ({ editor, transaction }: { editor: Editor; transaction: 
   if (shouldPreventOnUpdate({ transaction })) {
     return;
   }
-
   const {
     content: sanitizedContent,
     selection: sanitizedSelection,
     sanitized,
   } = sanitizeContent(editor);
+
   if (sanitized) {
     editor
       .chain()
@@ -56,36 +56,43 @@ const onUpdateThread = ({ editor, transaction }: { editor: Editor; transaction: 
 
   // Highlight text over char count:
   // for (let tIndex = Math.max(affectedIndex - 1, 0); tIndex < Math.min(content.length, affectedIndex + 2); tIndex++) {
-  for (let tIndex = 0; tIndex < content.length; tIndex++) {
-    const { start, end } = tweetEditorPosition(editor, tIndex);
-    chain
-      .setMeta("preventUpdate", true)
-      .setTextSelection({ from: start, to: end })
-      .unsetHighlight();
-
-    const headNumbering =
-      (editor.storage.kvStorage.headNumbering ?? [])[tIndex] ?? "";
-    const tailNumbering =
-      (editor.storage.kvStorage.tailNumbering ?? [])[tIndex] ?? "";
-    const currNumbering = headNumbering + tailNumbering;
-    const parsedTweet = parseTweet(
-      currNumbering + content[tIndex].attrs.text
-    );
-
-    if (!parsedTweet.valid) {
-      const validRangeEnd = parsedTweet.validRangeEnd + 1;
-      const pCount =
-        content[tIndex].attrs.text
-          .substring(0, parsedTweet.validRangeEnd)
-          .split("\n").length + 1;
-      const outOfBoundsStart = start + validRangeEnd + pCount;
+    for (let tIndex = 0; tIndex < content.length; tIndex++) {
+      const { start, end } = tweetEditorPosition(editor, tIndex);
       chain
-        .setTextSelection({
-          from: outOfBoundsStart - currNumbering.length,
-          to: end,
-        })
-        .setHighlight({ color: "hsla(360, 100%, 65%, 0.25)" });
-    }
+        .setMeta('preventUpdate', true)
+        .setTextSelection({ from: start, to: end })
+        .unsetHighlight();
+  
+      const headNumbering =
+        (editor.storage.kvStorage.headNumbering ?? [])[tIndex] ?? '';
+  
+      const tailNumbering =
+        (editor.storage.kvStorage.tailNumbering ?? [])[tIndex] ?? '';
+  
+      const currNumbering = headNumbering + tailNumbering;
+  
+      const tweet = content[tIndex];
+      const tweetText = tweet.attrs.text;
+      const parsedTweet = parseTweet(currNumbering + tweetText);
+  
+      if (!parsedTweet.valid) {
+        const validRangeEnd = parsedTweet.validRangeEnd + 1;
+  
+        const pCount =
+          tweetText.substring(0, parsedTweet.validRangeEnd).split('\n').length +
+          1;
+  
+        const outOfBoundsStart = start + validRangeEnd + pCount;
+  
+        const mentionsLength = extractMentions(tweet);
+  
+        chain
+          .setTextSelection({
+            from: outOfBoundsStart - currNumbering.length - mentionsLength,
+            to: end,
+          })
+          .setHighlight({ color: 'hsla(360, 100%, 65%, 0.25)' });
+      }
   }
   chain.setTextSelection(selection).run();
 
