@@ -1,5 +1,5 @@
 import React from "react"
-import { Editor } from "@tiptap/core"
+import { Editor } from "@tiptap/react"
 import { NodeViewWrapper, NodeViewContent } from "@tiptap/react"
 import Image from "next/image"
 import dp from "../../assets/dp.jpeg"

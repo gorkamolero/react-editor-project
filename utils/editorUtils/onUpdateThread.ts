@@ -1,4 +1,4 @@
-import { Editor } from "@tiptap/core";
+import { Editor } from "@tiptap/Reac";
 import tweetEditorPosition from "./tweetEditorPosition";
 import convertEmptyParagraphsToNewTweets from "./convertEmptyParagraphsToNewTweets";
 import sanitizeContent from "./sanitizeContent";
@@ -25,9 +25,14 @@ const onUpdateThread = ({ editor, transaction }: { editor: Editor; transaction: 
       .run();
   }
 
-  const initialTweetsNumber = editor.getJSON().content.length;
+  const json = editor.getJSON();
+  const initialTweetsNumber = json.content.length;
+  
   let { content, selection, affectedIndex } =
-    convertEmptyParagraphsToNewTweets(editor);
+    convertEmptyParagraphsToNewTweets({
+      editor,
+      json
+    });
 
   // Set Thread Finisher to false in case it happened to arrive at index 0 of the thread
   // It can happen by deleting all preceding tweets or by drag and dropping

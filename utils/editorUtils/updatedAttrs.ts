@@ -16,14 +16,16 @@ function updatedAttrs(tweet: IRichTextTweet, content, selectedTweetIndex: number
   const link = linkFromText(text);
   
 	const lastTweet = content[content.length - 1];
-	const isLastTweet = lastTweet.attrs.id === newTweet.attrs.id;
-  const isSelected = content[selectedTweetIndex].attrs.id === newTweet.attrs.id;
+	const isLastTweet = lastTweet?.attrs?.id === newTweet?.attrs?.id || false;
+  const isSelected = content[selectedTweetIndex]?.attrs?.id === newTweet?.attrs?.id || false;
 	
 	return {
 		...newTweet.attrs,
 		text,
-		link,
 		charCount: parseTweet(text).weightedLength,
+		link,
+    isThreadFinisher: isLastTweet,
+    isSelected,
 	};
 }
 

@@ -1,4 +1,4 @@
-import { Editor } from "@tiptap/core";
+import { Editor } from "@tiptap/react";
 
 function tweetEditorPosition(editor: Editor, index: number) {
 	let start = 0;

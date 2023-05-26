@@ -1,4 +1,5 @@
-import { extensions as CoreExtensions, Editor } from "@tiptap/core";
+import { extensions as CoreExtensions } from "@tiptap/core";
+import { Editor } from "@tiptap/react";
 import getSelectedTweetIndex from "../utils/editorUtils/getSelectedTweetIndex";
 import tweetEditorPosition from "../utils/editorUtils/tweetEditorPosition";
 

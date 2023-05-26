@@ -1,7 +1,6 @@
-import { ReactRenderer } from "@tiptap/react";
+import { ReactRenderer, Editor } from "@tiptap/react";
 import tippy from "tippy.js";
 import MentionList from "./MentionList";
-import { Editor } from "@tiptap/core";
 
 interface SuggestionProps {
 	query: string;

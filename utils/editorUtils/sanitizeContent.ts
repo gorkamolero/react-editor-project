@@ -1,4 +1,4 @@
-import { Editor } from "@tiptap/core";
+import { Editor } from "@tiptap/React";
 
 import { IRichTextTweet } from "../../types";
 import { TweetAttrs } from "../../components/TweetAttrs";

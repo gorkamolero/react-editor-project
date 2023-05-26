@@ -1,14 +1,13 @@
-import { Editor } from "@tiptap/core";
-import cloneDeep from "lodash.clonedeep";
+import { Editor, JSONContent } from "@tiptap/react";
 
 import getSelectedTweetIndex from "./getSelectedTweetIndex";
 import { TweetAttrs } from "../../components/TweetAttrs";
 import updatedAttrs from "./updatedAttrs";
 import { IRichTextTweet } from "../../types/IRichTextTweet";
 
-function convertEmptyParagraphsToNewTweets(editor: Editor) {
-	let content = editor.getJSON().content;
-	if (!content) return;
+function convertEmptyParagraphsToNewTweets({editor, json}: {editor: Editor, json: JSONContent}) {
+	let content = json.content;
+	if (!content || !content.length) return;
 
 	let cursorPosition = editor.view.state.selection.head;
 	const selectedTweetIndex = getSelectedTweetIndex(editor);
@@ -118,9 +117,7 @@ function convertEmptyParagraphsToNewTweets(editor: Editor) {
         // if the split was triggered from an empty line.
         cursorPosition -= emptyParagraphsCount * 2 - 4;
 
-        console.log('YOLO', content)
-
-        if ((content[affectedIndex].content?.length ?? 0) === 0) {
+        if ((content[affectedIndex]?.content?.length ?? 0) === 0) {
           content[affectedIndex].content = [{ type: 'paragraph' }];
           cursorPosition += emptyParagraphsCount;
           cursorPosition += 2;
