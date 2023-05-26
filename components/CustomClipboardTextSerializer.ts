@@ -1,6 +1,6 @@
 import { extensions as CoreExtensions } from '@tiptap/core'
-import { Node as ProseMirrorNode } from 'prosemirror-model'
-import { Plugin, PluginKey } from 'prosemirror-state'
+import { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 export const CustomClipboardTextSerializer =
   CoreExtensions.ClipboardTextSerializer.extend({

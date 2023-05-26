@@ -5,10 +5,9 @@ import {
   getChangedRanges,
   findChildrenInRange,
 } from '@tiptap/core';
-import { Plugin, PluginKey } from 'prosemirror-state';
-import { Slice, Fragment } from 'prosemirror-model';
+import { Plugin, PluginKey, Transaction } from '@tiptap/pm/state'
+import { Slice, Fragment } from '@tiptap/pm/model';
 import { v4 } from 'uuid';
-import { Transaction } from 'prosemirror-state';
 
 export interface UniqueIDOptions {
   attributeName: string;

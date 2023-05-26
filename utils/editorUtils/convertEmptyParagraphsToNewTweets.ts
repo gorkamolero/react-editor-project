@@ -118,6 +118,8 @@ function convertEmptyParagraphsToNewTweets(editor: Editor) {
         // if the split was triggered from an empty line.
         cursorPosition -= emptyParagraphsCount * 2 - 4;
 
+        console.log('YOLO', content)
+
         if ((content[affectedIndex].content?.length ?? 0) === 0) {
           content[affectedIndex].content = [{ type: 'paragraph' }];
           cursorPosition += emptyParagraphsCount;

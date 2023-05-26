@@ -2,10 +2,8 @@ import { Node, mergeAttributes } from "@tiptap/core";
 import { ReactNodeViewRenderer } from "@tiptap/react";
 
 import Paragraph from "../components/blocks/Paragraph";
-import {
-	getSelectedTweetIndex,
-	tweetEditorPosition,
-} from "../components/editorUtils";
+import getSelectedTweetIndex from "../utils/editorUtils/getSelectedTweetIndex";
+import tweetEditorPosition from "../utils/editorUtils/tweetEditorPosition";
 import { TweetAttrs } from "../components/TweetAttrs";
 import { addTweetCommandEnter } from "../hooks/useAddTweet";
 import onUpdateThread from "../utils/editorUtils/onUpdateThread";

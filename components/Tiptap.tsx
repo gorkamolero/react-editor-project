@@ -12,7 +12,7 @@ import ActionBar from './ActionBar'
 import { CustomKeymap } from '../extensions/CustomKeymap'
 import { CustomClipboardTextSerializer } from './CustomClipboardTextSerializer'
 import StarterKit from '@tiptap/starter-kit'
-import { createEmptyTweetEditorModel } from './editorUtils'
+import createEmptyTweetEditorModel from '../utils/editorUtils/createEmptyTweetEditorModel'
 import UniqueID from '../extensions/UniqueIDTiptap'
 
 const Tiptap = () => {

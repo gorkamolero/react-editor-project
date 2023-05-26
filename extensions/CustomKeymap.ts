@@ -1,8 +1,6 @@
 import { extensions as CoreExtensions, Editor } from "@tiptap/core";
-import {
-	getSelectedTweetIndex,
-	tweetEditorPosition,
-} from "../components/editorUtils";
+import getSelectedTweetIndex from "../utils/editorUtils/getSelectedTweetIndex";
+import tweetEditorPosition from "../utils/editorUtils/tweetEditorPosition";
 
 const Keymap = CoreExtensions.Keymap;
 
