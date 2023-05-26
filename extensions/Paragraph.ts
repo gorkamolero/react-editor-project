@@ -9,26 +9,9 @@ import {
 	tweetEditorPosition,
 } from "../components/editorUtils";
 import parseTweet from "../utils/parseTweet";
+import shouldPreventOnUpdate from "../utils/editorUtils/shouldPreventOnUpdate";
 import { TweetAttrs } from "../components/TweetAttrs";
 import { addTweetCommandEnter } from "../hooks/useAddTweet";
-
-function shouldPreventOnUpdate({
-	transaction,
-}: {
-	editor: Editor;
-	transaction: any;
-}) {
-	// Fix writing accents and diacritics in Safari.
-	const ignoredChars = new Set(["`", "´", "¨", "ˆ", "˜"]);
-
-	const insertedChar =
-		transaction?.steps?.[0]?.slice?.content?.content?.[0]?.text;
-	if (ignoredChars.has(insertedChar)) {
-		return true;
-	}
-
-	return false;
-}
 
 const Tweet = Node.create({
 	name: "tweet",
@@ -41,10 +24,12 @@ const Tweet = Node.create({
 	},
 
 	// I DO NOT UNDERSTAND THIS ONE
-	onUpdate({ editor, transaction }) {
-		if (shouldPreventOnUpdate({ editor, transaction })) {
-			return;
-		}
+	onUpdate: ({ editor, transaction }: { editor: Editor; transaction: any }) => {
+		console.log('YOLO')
+    if (shouldPreventOnUpdate({ transaction })) {
+      return;
+    }
+
 
 		const {
 			content: sanitizedContent,
@@ -68,7 +53,7 @@ const Tweet = Node.create({
 		// It can happen by deleting all preceding tweets or by drag and dropping
 		if (content[0].attrs.isThreadFinisher === true) {
 			content[0].attrs = { ...content[0].attrs, isThreadFinisher: false };
-			notif.error("Thread finisher removed from first tweet.");
+			console.error("Thread finisher removed from first tweet.");
 		}
 
 		// sanitize in case of tweet merge
