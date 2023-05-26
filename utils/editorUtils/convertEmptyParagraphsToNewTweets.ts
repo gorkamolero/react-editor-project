@@ -5,6 +5,19 @@ import { TweetAttrs } from "../../components/TweetAttrs";
 import updatedAttrs from "./updatedAttrs";
 import { IRichTextTweet } from "../../types/IRichTextTweet";
 
+
+
+function splitContent({ content, tweetIndex, pForNewTweet, attrsForNewTweet }) {
+  content.splice(tweetIndex + 1, 0, {
+    type: 'tweet',
+    attrs: attrsForNewTweet,
+    content: pForNewTweet,
+  });
+
+  return content;
+}
+
+
 function convertEmptyParagraphsToNewTweets({editor, json}: {editor: Editor, json: JSONContent}) {
 	let content = json.content;
 	if (!content || !content.length) return;
@@ -94,22 +107,21 @@ function convertEmptyParagraphsToNewTweets({editor, json}: {editor: Editor, json
 
         // if we are splitting from the middle of the tweet we should "move" all media from the current tweet (tweetIndex) to the new tweet
         if (!splitAtTweetEnd) {
-          attrsForNewTweet.images = tweetNode.attrs.images;
           attrsForNewTweet.link = tweetNode.attrs.link;
           content[tweetIndex].attrs = {
             ...content[tweetIndex].attrs,
-            images: [],
             link: null,
             selected: null,
           };
         }
 
         // insert tweet with excess new paragraphs from previous tweet (tweet after the split)
-        content = content.splice(tweetIndex + 1, 0, {
-					type: 'tweet',
-					attrs: attrsForNewTweet,
-					content: pForNewTweet,
-				});;
+        content = splitContent({
+          content,
+          tweetIndex,
+          pForNewTweet,
+          attrsForNewTweet,
+        });
 
         // * Remove cursor positions (each paragraph accounts for 2 positions)
         // and account for the new tweet amount of positions
@@ -130,7 +142,7 @@ function convertEmptyParagraphsToNewTweets({editor, json}: {editor: Editor, json
 		content[tweetIndex].attrs = updatedAttrs(
 			content[tweetIndex] as IRichTextTweet,
 			content,
-			tweetIndex
+			selectedTweetIndex
 		);
 	}
 

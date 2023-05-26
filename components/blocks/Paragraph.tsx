@@ -23,6 +23,7 @@ const Paragraph = (props: ParagraphProps) => {
     <>
       <NodeViewWrapper
         className="paragraph draggable-item"
+        data-isSelected={isSelected}
         data-link={link}
         data-isThreadFinisher={isThreadFinisher}
         data-id={id}
