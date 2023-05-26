@@ -47,63 +47,65 @@ function convertEmptyParagraphsToNewTweets(editor: Editor) {
 				!tweetNode.content[tweetNode.content.length - 2].content &&
 				!tweetNode.content[tweetNode.content.length - 3].content;
 
+			const atEndOfTweet = pIndex === tweetNodeContent.length - 2;
+
 			if (
-				// split with 2 empty paragraphs only if typing at end of tweet
-				(splitAtTweetEnd && pIndex === tweetNode.content.length - 2) ||
-				// spilt anywhere with 4 empty paragraphs
-				emptyParagraphsCount === 4
-			) {
-				// remove the empty paragraph
-				const splitAtParagraphIndex = pIndex + 1;
-				// take paragraphs from breakAtIndex to end
-				let pForNewTweet = tweetNode.content.slice(splitAtParagraphIndex);
-				const attrsForNewTweet = TweetAttrs.getDefaultAttrs();
+        // split with 2 empty paragraphs only if typing at end of tweet
+        (splitAtTweetEnd && atEndOfTweet) ||
+        // split anywhere with 2 empty paragraphs (just in case)
+        emptyParagraphsCount === 2
+      ) {
+        // remove the empty paragraph
+        const splitAtParagraphIndex = pIndex + 1;
+        // take paragraphs from breakAtIndex to end
+        let pForNewTweet = tweetNodeContent.slice(splitAtParagraphIndex);
 
-				if (pForNewTweet.length === 0) {
-					pForNewTweet = [{ type: "paragraph" }];
-					cursorPosition += 2;
-				}
+        let attrsForNewTweet = TweetAttrs.getDefaultAttrs();
 
-				// remove empty paragraphs from end (tweet above the split)
-				content[tweetIndex].content.splice(
-					splitAtParagraphIndex - emptyParagraphsCount
-				);
+        if (pForNewTweet.length === 0) {
+          pForNewTweet = [{ type: 'paragraph' }];
+          cursorPosition += 2;
+        }
 
-				// if we are splitting from the middle of the tweet we should "move" all media from the current tweet (tweetIndex) to the new tweet
-				if (!splitAtTweetEnd) {
-					attrsForNewTweet.images = tweetNode.attrs.images;
-					content[tweetIndex].attrs = {
-						...content[tweetIndex].attrs,
-						images: [],
-						videos: [],
-						gifs: [],
-					};
-				}
+        // remove empty paragraphs from end (tweet above the split)
+        content[tweetIndex].content.splice(
+          splitAtParagraphIndex - emptyParagraphsCount,
+        );
 
-				// insert tweet with excess new paragraphs from previous tweet (tweet after the split)
-				content.splice(tweetIndex + 1, 0, {
-					type: "tweet",
+        // if we are splitting from the middle of the tweet we should "move" all media from the current tweet (tweetIndex) to the new tweet
+        if (!splitAtTweetEnd) {
+          attrsForNewTweet.images = tweetNode.attrs.images;
+          attrsForNewTweet.link = tweetNode.attrs.link;
+          content[tweetIndex].attrs = {
+            ...content[tweetIndex].attrs,
+            images: [],
+            link: null,
+            selected: null,
+          };
+        }
+
+        // insert tweet with excess new paragraphs from previous tweet (tweet after the split)
+        content = content.splice(tweetIndex + 1, 0, {
+					type: 'tweet',
 					attrs: attrsForNewTweet,
 					content: pForNewTweet,
-				});
+				});;
 
-				// * Remove cursor positions (each paragraph accounts for 2 positions)
-				// and account for the new tweet amount of positions
-				//
-				// NB. This will put the cursor 2 positions ahead after the split
-				// if the split was triggered from an empty line.
-				// It will be fixed in TiptapTweetExtension.js after this function call.
-				cursorPosition -= emptyParagraphsCount * 2 - 4;
+        // * Remove cursor positions (each paragraph accounts for 2 positions)
+        // and account for the new tweet amount of positions
+        // This will put the cursor 2 positions ahead after the split
+        // if the split was triggered from an empty line.
+        cursorPosition -= emptyParagraphsCount * 2 - 4;
 
-				if ((content[affectedIndex].content?.length ?? 0) === 0) {
-					content[affectedIndex].content = [{ type: "paragraph" }];
-					cursorPosition += emptyParagraphsCount;
-					cursorPosition += 2;
-				}
+        if ((content[affectedIndex].content?.length ?? 0) === 0) {
+          content[affectedIndex].content = [{ type: 'paragraph' }];
+          cursorPosition += emptyParagraphsCount;
+          cursorPosition += 2;
+        }
 
-				affectedIndex = tweetIndex;
-				break;
-			}
+        affectedIndex = tweetIndex;
+        break;
+      }
 		}
 		content[tweetIndex].attrs = updatedAttrs(
 			content[tweetIndex] as IRichTextTweet,
@@ -112,7 +114,7 @@ function convertEmptyParagraphsToNewTweets(editor: Editor) {
 		);
 	}
 
-	return { content: content, selection: cursorPosition, affectedIndex };
+	return { content, selection: cursorPosition, affectedIndex };
 }
 
 export default convertEmptyParagraphsToNewTweets;

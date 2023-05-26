@@ -4,6 +4,7 @@ import convertEmptyParagraphsToNewTweets from "./convertEmptyParagraphsToNewTwee
 import sanitizeContent from "./sanitizeContent";
 import shouldPreventOnUpdate from "./shouldPreventOnUpdate";
 import parseTweet from "../parseTweet";
+import extractMentions from "./extractMentions";
 
 const onUpdateThread = ({ editor, transaction }: { editor: Editor; transaction: any }) => {
   console.log('YOLO this is working')
