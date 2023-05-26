@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Editor } from "@tiptap/core";
 import { NodeViewWrapper, NodeViewContent } from "@tiptap/react";
-
-import GifModal from "../GifModal";
-import { BsFillImageFill, BsPlusCircle, BsX } from "react-icons/bs";
 import Image from "next/image";
 import dp from "../../assets/dp.jpeg";
 import TwitterLinkView from "../TwitterLinkView";
@@ -16,15 +13,7 @@ interface ParagraphProps {
 
 const Paragraph = (props: ParagraphProps) => {
 	let text = String(props.editor.getText());
-	const tweetRef = React.useRef(null);
 	const characterCount = props.node.content.size;
-	const scrollToBottom = () => {
-		tweetRef.current.scrollIntoView({ behavior: "smooth" });
-	};
-
-	useEffect(() => {
-		scrollToBottom;
-	}, []);
 
 	const percentage = props.editor
 		? Math.round((100 / 280) * characterCount)
@@ -42,7 +31,7 @@ const Paragraph = (props: ParagraphProps) => {
 				<div className="relative w-full">
 					<div className="absolute h-full border-r-2 border-gray-300/75 left-6"></div>
 					<ul className="space-y-2">
-						<li ref={tweetRef}>
+						<li>
 							<div className="flex items-center">
 								<span className="rounded-full h-12 w-12">
 									<Image

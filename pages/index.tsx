@@ -1,16 +1,9 @@
-import React, { useState } from "react";
 import Head from "next/head";
 import Tiptap from "../components/Tiptap";
-import ScrollToBottom from "react-scroll-to-bottom";
-import { css } from "@emotion/react";
 import Sidebar from "../components/Sidebar";
 
 export default function Home() {
-	const [sidebar, setSidebar] = useState(true);
-	const ROOT_CSS = css({
-		height: 500,
-		width: 400,
-	});
+	const sidebar = true;
 	return (
 		<div>
 			<Head>
@@ -26,9 +19,7 @@ export default function Home() {
 						<Sidebar />
 					</div>
 					<div className="w-full md:w-6/12 lg:w-5/12 mx-auto mt-4 p-2">
-						<ScrollToBottom className={ROOT_CSS}>
-							<Tiptap />
-						</ScrollToBottom>
+						<Tiptap />
 					</div>
 				</main>
 			</section>
