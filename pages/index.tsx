@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Tiptap from "../components/Tiptap";
-import Sidebar from "../components/Sidebar";
 
 export default function Home() {
 	const sidebar = true;
@@ -15,9 +14,7 @@ export default function Home() {
 				<main className="flex">
 					<div
 						className={`py-2 px-4 hidden lg:block ${sidebar ? "w-72" : "w-0"} `}
-					>
-						<Sidebar />
-					</div>
+					/>
 					<div className="w-full md:w-6/12 lg:w-5/12 mx-auto mt-4 p-2">
 						<Tiptap />
 					</div>

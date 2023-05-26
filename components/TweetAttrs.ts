@@ -28,7 +28,7 @@ export class TweetAttrs {
 
 	static getDefaultAttrs(): ITweetAttrs {
 		return {
-			id: TweetAttrs.id.default,
+			id: '',
 			text: TweetAttrs.text.default,
 			charCount: TweetAttrs.charCount.default,
 			link: TweetAttrs.link.default,

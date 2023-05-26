@@ -27,8 +27,7 @@ const Tiptap = () => {
     extensions: [
       StarterKit.configure({
         // nodes
-        // TODO: Text, false?
-        text: false,
+        text: true,
         blockquote: false,
         bulletList: false,
         codeBlock: false,

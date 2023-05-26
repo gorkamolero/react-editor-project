@@ -24,12 +24,17 @@
     "@tiptap/extension-paragraph": "^2.0.0-beta.23",
     "@tiptap/extension-placeholder": "^2.0.0-beta.48",
     "@tiptap/extension-text": "^2.0.0-beta.15",
+    "@tiptap/pm": "^2.0.3",
     "@tiptap/react": "^2.0.0-beta.109",
     "@tiptap/starter-kit": "^2.0.0-beta.185",
+    "@tiptap/suggestion": "^2.0.3",
     "framer-motion": "^6.3.10",
     "lodash.clonedeep": "^4.5.0",
     "lodash.flatten": "^4.4.0",
     "next": "^13.4.1",
+    "prosemirror-model": "1.16.1",
+    "prosemirror-state": "1.4.2",
+    "prosemirror-view": "1.23.10",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-giphy-searchbox": "^1.5.4",
@@ -46,9 +51,7 @@
     "tippy.js": "^6.3.7",
     "twitter-text": "^3.1.0",
     "use-debounce": "^8.0.1",
-    "prosemirror-model": "1.16.1",
-    "prosemirror-state": "1.4.2",
-    "prosemirror-view": "1.23.10"
+    "uuid": "^9.0.0"
   },
   "overrides": {
     "prosemirror-model": "1.16.1",
@@ -57,6 +60,7 @@
   },
   "devDependencies": {
     "@types/lodash.clonedeep": "^4.5.7",
+    "@types/node": "20.2.4",
     "@types/react": "18.2.6",
     "@types/twitter-text": "^3.1.5",
     "@typescript-eslint/eslint-plugin": "^5.59.5",
