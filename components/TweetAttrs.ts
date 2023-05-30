@@ -1,6 +1,8 @@
 import cloneDeep from "lodash.clonedeep";
 import deepEqual from "../utils/deepEqual";
-import { AttrsMeta, IMediaAttrObj, StrippedAttrs } from "../types";
+import AttrsMeta from "../types/AttrsMeta";
+import StrippedAttrs from "../types/StrippedAttrs";
+import IMediaAttrObj from "../types/IMediaAttrObj";
 import { ITweetAttrs } from "../types/ITweetAttrs";
 
 export class TweetAttrs {

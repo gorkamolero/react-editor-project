@@ -3,7 +3,7 @@ import updatedTextAndCharCountAttrs from "./updatedAttrs";
 import shouldSmartSplitContent from "./shouldSmartSplitContent";
 import shouldSmartSplitTweet from "./shouldSmartSplitTweet";
 import parseTweet from "../parseTweet";
-import { splitTweetTextInSentences } from "./splitTweetTextInSentences";
+import splitTweetTextInSentences from "./splitTweetTextInSentences";
 import pToString from "./pToString";
 import trimEmptyParagraphs from "./trimEmptyParagraphs";
 import compressEmptyParagraphs from "./compressEmptyParagraphs";
@@ -12,7 +12,7 @@ import compressEmptyParagraphs from "./compressEmptyParagraphs";
 import { IRichTextTweet } from "../../types/IRichTextTweet";
 import { IParagraph } from "../../types/IParagraph";
 
-function smartSplitContent(content: IRichTextTweet[]) {
+function smartSplitContent(content: IRichTextTweet<"paragraph">[]) {
 	const maxChars = 280;
 
 	content = content.map((tweet) => {
@@ -80,7 +80,7 @@ function smartSplitContent(content: IRichTextTweet[]) {
 
 				// replace the content of the current tweet to avoid exceeding content
 				const oldTweet = { ...tweet, content: pForOldTweet };
-				oldTweet.attrs = { ...updatedTextAndCharCountAttrs(oldTweet) };
+				oldTweet.attrs = { ...updatedTextAndCharCountAttrs(oldTweet)} ;
 
 				// add the exceeding content to the new tweet
 				// TODO: ask if the type should be "paragraph" or "tweet"
@@ -88,7 +88,7 @@ function smartSplitContent(content: IRichTextTweet[]) {
 					type: "paragraph",
 					content: pForNewTweet,
 					attrs: TweetAttrs.getDefaultAttrs(),
-				};
+				} as IRichTextTweet<"paragraph">;
 				newTweet.attrs = { ...updatedTextAndCharCountAttrs(newTweet) };
 
 				if (pForOldTweet.length === 0 || pForNewTweet.length === 0) {

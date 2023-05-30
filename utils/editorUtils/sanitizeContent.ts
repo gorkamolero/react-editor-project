@@ -1,11 +1,12 @@
-import { Editor } from "@tiptap/React";
+import { Editor } from "@tiptap/react";
 
-import { IRichTextTweet } from "../../types";
+import { IRichTextTweet } from "../../types/IRichTextTweet";
 import { TweetAttrs } from "../../components/TweetAttrs";
+import { IParagraph } from "../../types/IParagraph";
 
 // Type of content is not consistent in this function, do no want to mess things up by changing it
 function sanitizeContent(editor: Editor) {
-	let content = editor.getJSON().content;
+	let content = editor.getJSON().content as any;
 	const selection = editor.view.state.selection.head;
 	let sanitized = false;
 
