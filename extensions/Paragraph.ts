@@ -1,5 +1,5 @@
-import { Node, mergeAttributes } from "@tiptap/core";
-import { ReactNodeViewRenderer } from "@tiptap/react";
+import { Node, mergeAttributes, KeyboardShortcutCommand } from "@tiptap/core";
+import { ReactNodeViewRenderer, Editor } from "@tiptap/react";
 
 import Paragraph from "../components/blocks/Paragraph";
 import getSelectedTweetIndex from "../utils/editorUtils/getSelectedTweetIndex";
@@ -57,7 +57,7 @@ const Tweet = Node.create({
 	addCommands() {
 		return {
 			moveTweet:
-				(index, direction) =>
+				(index: number, direction: number) =>
 				({ editor }) => {
 					const destIndex = index + direction;
 					const tweets = editor.getJSON().content;
@@ -88,7 +88,7 @@ const Tweet = Node.create({
 					});
 				},
 			setSelectionToTweetAtIndex:
-				(index, offset) =>
+				(index: number, offset: number) =>
 				({ editor, commands }) => {
 					const { start } = tweetEditorPosition(editor, index);
 					commands.setTextSelection(start + offset);
@@ -111,15 +111,15 @@ const Tweet = Node.create({
 		};
 	},
 
-	// TODO: Fix this
-	addKeyboardShortcuts() {
-		return {
-			"Mod-Enter": () => {
-				addTweetCommandEnter(this.editor);
-			},
-			// 'alt-ArrowUp': () => this.editor.commands.moveTweetUp(),
-			// 'alt-ArrowDown': () => this.editor.commands.moveTweetDown()
-		};
+	addKeyboardShortcuts(): { [key: string]: KeyboardShortcutCommand } {
+    return {
+      "Mod-Enter": ({ editor }: { editor: Editor }) => {
+        addTweetCommandEnter(editor);
+        return true;
+      },
+      // 'alt-ArrowUp': () => this.editor.commands.moveTweetUp(),
+      // 'alt-ArrowDown': () => this.editor.commands.moveTweetDown()
+    };
 	},
 });
 

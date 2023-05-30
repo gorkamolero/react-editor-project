@@ -1,25 +1,10 @@
-import { ReactRenderer, Editor } from "@tiptap/react";
+import { ReactRenderer } from "@tiptap/react";
 import tippy from "tippy.js";
+import { SuggestionOptions } from '@tiptap/suggestion';
+
 import MentionList from "./MentionList";
 
-interface SuggestionProps {
-	query: string;
-	editor: Editor;
-	clientRect: any; // Replace with the appropriate type for the clientRect
-	event: KeyboardEvent;
-}
-
-interface SuggestionItem {
-	items: (props: SuggestionProps) => string[];
-	render: () => {
-		onStart: (props: SuggestionProps) => void;
-		onUpdate: (props: SuggestionProps) => void;
-		onKeyDown: (props: SuggestionProps) => boolean;
-		onExit: () => void;
-	};
-}
-
-const suggestion: SuggestionItem = {
+const suggestion: Omit<SuggestionOptions, 'editor'> = {
 	items: ({ query }) => {
 		return [
 			"Lea Thompson",

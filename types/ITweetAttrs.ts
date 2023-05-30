@@ -1,4 +1,4 @@
-import { IMediaAttrObj } from "../types";
+import IMediaAttrObj from "./IMediaAttrObj";
 
 export interface ITweetAttrs {
 	text: string;
