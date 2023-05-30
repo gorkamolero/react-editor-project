@@ -2,11 +2,6 @@ import { Node, mergeAttributes } from "@tiptap/core";
 
 export default Node.create({
 	name: "hardbreak",
-	// TODO: in the Node.create() function, addOptions is expected to be a function that returns an object, but it's not here!
-	// TODO: fix this
-	addOptions: {
-		HTMLAttributes: {},
-	},
 	inline: true,
 	group: "inline",
 	selectable: false,
