@@ -6,7 +6,9 @@ function tweetEditorPosition(editor: Editor, index: number) {
 
 	for (let tIndex = 0; tIndex <= index; tIndex++) {
 		start = end;
-		end += editor.state.doc.content.content[tIndex].nodeSize;
+		// I do not know if this extra .content is needed because it throws an error
+		end += editor.state.doc.content.content[tIndex].content.nodeSize;
+		// end += editor.state.doc.content.content[tIndex].nodeSize;
 	}
 
 	return { start, end };

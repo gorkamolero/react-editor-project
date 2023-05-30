@@ -1,7 +1,7 @@
-import { splitTweetTextInSentences } from "./splitTweetTextInSentences";
+import splitTweetTextInSentences from "./splitTweetTextInSentences";
 import { IRichTextTweet } from "../../types/IRichTextTweet";
 
-function shouldSmartSplitTweet(tweet: IRichTextTweet) {
+function shouldSmartSplitTweet(tweet: IRichTextTweet<"paragraph">) {
 	const maxChars = 280;
 
 	return (
