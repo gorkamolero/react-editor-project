@@ -112,6 +112,7 @@ const onUpdateThread = ({ editor, transaction }: { editor: Editor; transaction: 
   if (editor.extensionStorage.customHistory.shouldIgnoreAddToHistory) {
     editor.extensionStorage.customHistory.shouldIgnoreAddToHistory = false;
   } else {
+    // TODO: fix this
     editor.commands.addToHistory();
   }
 }

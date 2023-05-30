@@ -18,7 +18,7 @@ const Tweet = Node.create({
 		return TweetAttrs.getDefaultAttrs();
 	},
 
-	// I DO NOT UNDERSTAND THIS ONE
+	// TODO: fix this
 	onUpdate: onUpdateThread,
 
 	parseHTML: () => {
