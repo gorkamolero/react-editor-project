@@ -1,11 +1,10 @@
-import { Editor, JSONContent } from "@tiptap/react";
+import { Editor } from "@tiptap/core";
+import { JSONContent } from "@tiptap/react";
 
 import getSelectedTweetIndex from "./getSelectedTweetIndex";
 import { TweetAttrs } from "../../components/TweetAttrs";
 import updatedAttrs from "./updatedAttrs";
 import { IRichTextTweet } from "../../types/IRichTextTweet";
-
-
 
 function splitContent({ content, tweetIndex, pForNewTweet, attrsForNewTweet }) {
   content.splice(tweetIndex + 1, 0, {
@@ -16,7 +15,6 @@ function splitContent({ content, tweetIndex, pForNewTweet, attrsForNewTweet }) {
 
   return content;
 }
-
 
 function convertEmptyParagraphsToNewTweets({editor, json}: {editor: Editor, json: JSONContent}) {
 	let content = json.content as IRichTextTweet[];
@@ -111,7 +109,7 @@ function convertEmptyParagraphsToNewTweets({editor, json}: {editor: Editor, json
           content[tweetIndex].attrs = {
             ...content[tweetIndex].attrs,
             link: null,
-            selected: null,
+            isSelected: null,
           };
         }
 
@@ -140,7 +138,7 @@ function convertEmptyParagraphsToNewTweets({editor, json}: {editor: Editor, json
       }
 		}
 		content[tweetIndex].attrs = updatedAttrs(
-			content[tweetIndex] as unknown as IRichTextTweet<"paragraph">,
+			content[tweetIndex] as unknown as IRichTextTweet,
 			content,
 			selectedTweetIndex
 		);

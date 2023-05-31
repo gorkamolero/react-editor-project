@@ -6,7 +6,7 @@ import { IRichTextTweet } from "../../types/IRichTextTweet";
 import { ITweetAttrs } from "../../types/ITweetAttrs";
 import linkFromText from "./linkFromText";
 
-function updatedAttrs(tweet: IRichTextTweet<"paragraph">, content?: any, selectedTweetIndex?: number): ITweetAttrs {
+function updatedAttrs(tweet: IRichTextTweet, content?: any, selectedTweetIndex?: number): ITweetAttrs {
 	const newTweet = cloneDeep(tweet);
 	if (!newTweet.content) {
 		return { ...newTweet.attrs, text: "", charCount: 0 };

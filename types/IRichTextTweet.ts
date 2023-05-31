@@ -1,8 +1,8 @@
 import { ITweetAttrs } from "./ITweetAttrs";
 import { IParagraph } from "./IParagraph";
 
-export interface IRichTextTweet<T = "tweet"> {
-	type: T;
+export interface IRichTextTweet {
+	type: 'tweet' | 'paragraph';
 	content: IParagraph[];
 	attrs: ITweetAttrs;
 }

@@ -1,4 +1,4 @@
-import { Editor } from "@tiptap/react";
+import { Editor } from "@tiptap/core";
 
 export function addTweetCommandEnter(editor: Editor) {
 	const numTweets = editor.getJSON().content.length;

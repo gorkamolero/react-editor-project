@@ -1,4 +1,5 @@
 import { Editor } from "@tiptap/react";
+
 import tweetEditorPosition from "./tweetEditorPosition";
 import convertEmptyParagraphsToNewTweets from "./convertEmptyParagraphsToNewTweets";
 import sanitizeContent from "./sanitizeContent";

@@ -2,7 +2,7 @@ import shouldSmartSplitTweet from "./shouldSmartSplitTweet";
 
 import { IRichTextTweet } from "../../types/IRichTextTweet";
 
-function shouldSmartSplitContent(content: IRichTextTweet<"paragraph">[]) {
+function shouldSmartSplitContent(content: IRichTextTweet[]) {
 	return content.find((tweet) => shouldSmartSplitTweet(tweet));
 }
 

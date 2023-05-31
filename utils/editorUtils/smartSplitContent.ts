@@ -12,7 +12,7 @@ import compressEmptyParagraphs from "./compressEmptyParagraphs";
 import { IRichTextTweet } from "../../types/IRichTextTweet";
 import { IParagraph } from "../../types/IParagraph";
 
-function smartSplitContent(content: IRichTextTweet<"paragraph">[]) {
+function smartSplitContent(content: IRichTextTweet[]) {
 	const maxChars = 280;
 
 	content = content.map((tweet) => {
@@ -88,7 +88,7 @@ function smartSplitContent(content: IRichTextTweet<"paragraph">[]) {
 					type: "paragraph",
 					content: pForNewTweet,
 					attrs: TweetAttrs.getDefaultAttrs(),
-				} as IRichTextTweet<"paragraph">;
+				} as IRichTextTweet;
 				newTweet.attrs = { ...updatedTextAndCharCountAttrs(newTweet) };
 
 				if (pForOldTweet.length === 0 || pForNewTweet.length === 0) {

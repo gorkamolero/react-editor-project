@@ -1,8 +1,7 @@
-import { Editor } from "@tiptap/react";
+import { Editor } from "@tiptap/core";
 
 import { IRichTextTweet } from "../../types/IRichTextTweet";
 import { TweetAttrs } from "../../components/TweetAttrs";
-import { IParagraph } from "../../types/IParagraph";
 
 // Type of content is not consistent in this function, do no want to mess things up by changing it
 function sanitizeContent(editor: Editor) {

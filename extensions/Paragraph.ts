@@ -1,5 +1,5 @@
-import { Node, mergeAttributes, KeyboardShortcutCommand } from "@tiptap/core";
-import { ReactNodeViewRenderer, Editor } from "@tiptap/react";
+import { Node, mergeAttributes, KeyboardShortcutCommand, Editor } from "@tiptap/core";
+import { ReactNodeViewRenderer } from "@tiptap/react";
 
 import Paragraph from "../components/blocks/Paragraph";
 import getSelectedTweetIndex from "../utils/editorUtils/getSelectedTweetIndex";
@@ -19,7 +19,9 @@ const Tweet = Node.create({
 	},
 
 	// TODO: fix this
-	onUpdate: onUpdateThread,
+	onUpdate(this: { editor }) {
+		onUpdateThread({ editor: this.editor });
+	},
 
 	parseHTML: () => {
 		return [{ tag: 'div[data-type="draggable-item"]' }];
