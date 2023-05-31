@@ -17,6 +17,8 @@
 		"@typescript-eslint/no-misused-promises": "off",
 		"@typescript-eslint/no-unsafe-argument": "off",
 		"@typescript-eslint/restrict-plus-operands": "off",
-		"prefer-const": "off"
+		"prefer-const": "off",
+		"@typescript-eslint/no-non-null-assertion": "off",
+		"@typescript-eslint/no-empty-interface": "off"
 	}
 }

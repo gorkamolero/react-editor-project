@@ -1,4 +1,4 @@
-import { Node, mergeAttributes } from "@tiptap/core";
+import { Node, mergeAttributes, KeyboardShortcutCommand, Editor } from "@tiptap/core";
 import { ReactNodeViewRenderer } from "@tiptap/react";
 
 import Paragraph from "../components/blocks/Paragraph";
@@ -18,8 +18,10 @@ const Tweet = Node.create({
 		return TweetAttrs.getDefaultAttrs();
 	},
 
-	// I DO NOT UNDERSTAND THIS ONE
-	onUpdate: onUpdateThread,
+	// TODO: fix this
+	onUpdate(this: { editor }) {
+		onUpdateThread({ editor: this.editor });
+	},
 
 	parseHTML: () => {
 		return [{ tag: 'div[data-type="draggable-item"]' }];
@@ -57,7 +59,7 @@ const Tweet = Node.create({
 	addCommands() {
 		return {
 			moveTweet:
-				(index, direction) =>
+				(index: number, direction: number) =>
 				({ editor }) => {
 					const destIndex = index + direction;
 					const tweets = editor.getJSON().content;
@@ -88,7 +90,7 @@ const Tweet = Node.create({
 					});
 				},
 			setSelectionToTweetAtIndex:
-				(index, offset) =>
+				(index: number, offset: number) =>
 				({ editor, commands }) => {
 					const { start } = tweetEditorPosition(editor, index);
 					commands.setTextSelection(start + offset);
@@ -111,15 +113,15 @@ const Tweet = Node.create({
 		};
 	},
 
-	// TODO: Fix this
-	addKeyboardShortcuts() {
-		return {
-			"Mod-Enter": () => {
-				addTweetCommandEnter(this.editor);
-			},
-			// 'alt-ArrowUp': () => this.editor.commands.moveTweetUp(),
-			// 'alt-ArrowDown': () => this.editor.commands.moveTweetDown()
-		};
+	addKeyboardShortcuts(): { [key: string]: KeyboardShortcutCommand } {
+    return {
+      "Mod-Enter": ({ editor }: { editor: Editor }) => {
+        addTweetCommandEnter(editor);
+        return true;
+      },
+      // 'alt-ArrowUp': () => this.editor.commands.moveTweetUp(),
+      // 'alt-ArrowDown': () => this.editor.commands.moveTweetDown()
+    };
 	},
 });
 

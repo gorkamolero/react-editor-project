@@ -1,15 +1,12 @@
-import { Editor } from "@tiptap/Reac";
+import { Editor } from "@tiptap/react";
+
 import tweetEditorPosition from "./tweetEditorPosition";
 import convertEmptyParagraphsToNewTweets from "./convertEmptyParagraphsToNewTweets";
 import sanitizeContent from "./sanitizeContent";
-import shouldPreventOnUpdate from "./shouldPreventOnUpdate";
 import parseTweet from "../parseTweet";
 import extractMentions from "./extractMentions";
 
-const onUpdateThread = ({ editor, transaction }: { editor: Editor; transaction: any }) => {
-  if (shouldPreventOnUpdate({ transaction })) {
-    return;
-  }
+const onUpdateThread = ({ editor}: { editor: Editor;}) => {
   const {
     content: sanitizedContent,
     selection: sanitizedSelection,
@@ -112,6 +109,7 @@ const onUpdateThread = ({ editor, transaction }: { editor: Editor; transaction: 
   if (editor.extensionStorage.customHistory.shouldIgnoreAddToHistory) {
     editor.extensionStorage.customHistory.shouldIgnoreAddToHistory = false;
   } else {
+    // TODO: fix this
     editor.commands.addToHistory();
   }
 }

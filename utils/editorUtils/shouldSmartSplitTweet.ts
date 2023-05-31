@@ -1,4 +1,4 @@
-import { splitTweetTextInSentences } from "./splitTweetTextInSentences";
+import splitTweetTextInSentences from "./splitTweetTextInSentences";
 import { IRichTextTweet } from "../../types/IRichTextTweet";
 
 function shouldSmartSplitTweet(tweet: IRichTextTweet) {
