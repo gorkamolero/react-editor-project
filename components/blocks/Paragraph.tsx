@@ -2,7 +2,7 @@ import React from "react"
 import { Editor } from "@tiptap/react"
 import { NodeViewWrapper, NodeViewContent } from "@tiptap/react"
 import Image from "next/image"
-import dp from "../../assets/dp.jpeg"
+import gorka from "../../assets/gorka.jpeg"
 import TwitterLinkView from "../TwitterLinkView"
 import { BsPlusCircle } from "react-icons/bs"
 
@@ -45,13 +45,12 @@ const Paragraph = (props: ParagraphProps) => {
                 <span
                   className="select-none rounded-full"
                   contentEditable={false}
+                  style={{ width: "48px", height: "48px" }}
                 >
                   <Image
-                    src={dp}
-                    width={48}
-                    height={48}
+                    src={gorka}
                     alt="profile"
-                    className="rounded-full"
+                    className="rounded-full h-10 w-10 object-cover"
                   />
                 </span>
                 <div
@@ -69,7 +68,8 @@ const Paragraph = (props: ParagraphProps) => {
                   </h4>
                 </div>
               </div>
-              <div className="ml-[44px] -mt-7">
+              <div className="ml-[44px] -mt-6">
+              {/* <div className="ml-[44px] -mt-7"> */}
                 <NodeViewContent
                   className={`content thread-text mb-2 w-full pl-3`}
                 />
