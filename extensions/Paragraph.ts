@@ -14,6 +14,7 @@ const Tweet = Node.create({
 	content: "paragraph*",
 	inline: false,
 	draggable: true,
+
 	addAttributes() {
 		return TweetAttrs.getDefaultAttrs();
 	},

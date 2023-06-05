@@ -84,7 +84,7 @@ function convertEmptyParagraphsToNewTweets({editor, json}: {editor: Editor, json
         // split with 2 empty paragraphs only if typing at end of tweet
         (splitAtTweetEnd && atEndOfTweet) ||
         // split anywhere with 2 empty paragraphs (just in case)
-        emptyParagraphsCount === 2
+        emptyParagraphsCount === 3
       ) {
         // remove the empty paragraph
         const splitAtParagraphIndex = pIndex + 1;
