@@ -197,12 +197,9 @@ export const CustomKeymap = Keymap.extend({
 			// set previous tweet to mixed content
 			content[currentTweetIndex - 1].content = mixedContent;
 
-			// prevent backspace
-			setContentHacky(content, currentTweetIndex)
-			
 			editor.commands.setContent(content);
 
-			return false;
+			return true;
 		}
 
     return {
@@ -215,25 +212,3 @@ export const CustomKeymap = Keymap.extend({
     };
 	},
 });
-
-const setContentHacky = (content, currentTweetIndex) => {
-	// find circular last text element and add a space
-	const lastContentElement = content[currentTweetIndex - 1].content[
-		content[currentTweetIndex - 1].content.length - 1
-	]
-
-	const lastTextElement = lastContentElement.content[lastContentElement.content.length - 1];
-
-	if (lastTextElement.type === 'text') {
-		lastTextElement.text = lastTextElement.text + ' ';
-	}
-
-	// put that back into the content
-	content[currentTweetIndex - 1].content[
-		content[currentTweetIndex - 1].content.length - 1
-	].content[
-		content[currentTweetIndex - 1].content[
-			content[currentTweetIndex - 1].content.length - 1
-		].content.length - 1
-	] = lastTextElement;
-}
